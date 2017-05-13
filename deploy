@@ -6,4 +6,4 @@ NPM=$(npm bin)
 
 npm i now
 $NPM/now rm -y tgif -t $NOW_TOKEN
-$NPM/now deploy -t $NOW_TOKEN -e TELEGRAM_BOT_TOKEN=$TELEGRAM_BOT_TOKEN
+$NPM/now deploy -C -t $NOW_TOKEN -e TELEGRAM_BOT_TOKEN=$TELEGRAM_BOT_TOKEN
