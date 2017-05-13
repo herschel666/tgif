@@ -5,6 +5,10 @@ branches:
     only:
         - master
 
+cache:
+    directories:
+        - node_modules
+
 env:
     global:
         - secure: "sSxd9uMFMEkE0tC4mz0JhlV7yJIOgdd/0sT10mrOo7HhGAtzPx2k75Y5Bg2fqOsECDm1Wzd/Zh+0/xiHugGDgNuWMXRnKnRHta2e89ISjgFby3uOMjj6RGA378+RFSEhp0tqUye0DbK6MaDd5q41pCrCyP1k1RkkF3nZO7y2J9JVwftPn+32LVL8YRkj/uwHsTrh+DB5LzH2oFpReFPBU+L0LKHIXpO1LgZCb+fEJEpH8tOw64+uJw2oreUAz43QPxcCxTLPj5tgpCwhZSHTybfMyncjkxxjd9i5HCfiawLnJrvLhE3Cxk1nrafdb04ADr8KiY1jTE+eA9K68HR3p3uJxl1z6eudNlx9CpoOZlR+3v3/OjpkC9TRYfzcPQ772LSTsHnKm1SGKvfwapzaHfWm93B9p2DPtS0WePPHnYUpfuLGL6gbfxf1Cv2tNe89dwFUuj7ZxZONcnpIMZHLhBteNpJmNX1iO/O/UZjUUGzOyPytBpu2lW1ozJYhTaMDpESSVeRJrQApCH5IXnUo+IItYKMWXXZi1oR+6Dkvgsx95YFtoTNBjJgedjMNSja+8OWaKHQo2vqYjOSMgyXc97abpjfhnVQugKxl9xmxTEnIjTHMR7ZJ087rRY1P+/xVEJW5BGOysFFOLB8hEcGZfx2MRQCmJnI3eTY2NC/ZEGA="
