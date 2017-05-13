@@ -1,0 +1,24 @@
+{
+  "name": "tgif",
+  "version": "0.1.0",
+  "description": "A telegram bot helping you to find out whether it's time to celebrate the friday.",
+  "main": "index.js",
+  "repository": "https://github.com/herschel666/tgif",
+  "author": "Emanuel Kluge",
+  "license": "Beerware",
+  "scripts": {
+    "test": "eslint .",
+    "start": "node ."
+  },
+  "dependencies": {
+    "eslint": "^3.15.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^3.0.2 || ^4.0.0",
+    "eslint-plugin-react": "^6.9.0",
+    "lodash.sample": "^4.2.1",
+    "now": "^5.2.3",
+    "request": "^2.81.0",
+    "telebot": "^1.1.0"
+  }
+}
