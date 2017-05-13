@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -e
+
+NPM=$(npm bin)
+
+$NPM/now rm tgif -t $NOW_TOKEN
+$NPM/now deploy -t $NOW_TOKEN -e TELEGRAM_BOT_TOKEN=$TELEGRAM_BOT_TOKEN
