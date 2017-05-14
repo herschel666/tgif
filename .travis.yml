@@ -8,15 +8,3 @@ branches:
 cache:
     directories:
         - node_modules
-
-env:
-    global:
-        - secure: "sSxd9uMFMEkE0tC4mz0JhlV7yJIOgdd/0sT10mrOo7HhGAtzPx2k75Y5Bg2fqOsECDm1Wzd/Zh+0/xiHugGDgNuWMXRnKnRHta2e89ISjgFby3uOMjj6RGA378+RFSEhp0tqUye0DbK6MaDd5q41pCrCyP1k1RkkF3nZO7y2J9JVwftPn+32LVL8YRkj/uwHsTrh+DB5LzH2oFpReFPBU+L0LKHIXpO1LgZCb+fEJEpH8tOw64+uJw2oreUAz43QPxcCxTLPj5tgpCwhZSHTybfMyncjkxxjd9i5HCfiawLnJrvLhE3Cxk1nrafdb04ADr8KiY1jTE+eA9K68HR3p3uJxl1z6eudNlx9CpoOZlR+3v3/OjpkC9TRYfzcPQ772LSTsHnKm1SGKvfwapzaHfWm93B9p2DPtS0WePPHnYUpfuLGL6gbfxf1Cv2tNe89dwFUuj7ZxZONcnpIMZHLhBteNpJmNX1iO/O/UZjUUGzOyPytBpu2lW1ozJYhTaMDpESSVeRJrQApCH5IXnUo+IItYKMWXXZi1oR+6Dkvgsx95YFtoTNBjJgedjMNSja+8OWaKHQo2vqYjOSMgyXc97abpjfhnVQugKxl9xmxTEnIjTHMR7ZJ087rRY1P+/xVEJW5BGOysFFOLB8hEcGZfx2MRQCmJnI3eTY2NC/ZEGA="
-        - secure: "RDTUMB7cQ8FtZa+AUhyxIOpyopxkJi3exyIig1qJtCzFd6UYLuyiw8zjqM1YicKUljaoKFn8LBsqaSU90gws0o1h411MKBBv+h9hJqzf/4LVmj8//X8iAYMgB/zlFjLjL1D/JTRgq2Mu6du1PQ2rmNuTfynfceLs92KKyyEB5GzK9pGwevmfCH4j9jFBXfXNU1L4joZ0RyOSm8/OUCHiQBSjMd0r6AT6ZvSAx//2lXzYKRUtp1d+/dPLmTYP24VT4wvZcN9e0FSuY6Lmhi+q46PPApG49zUtG26nDaeQT1WnOonp/L+64NJlHwUH91SbUrRlq84Qhy4An0t06I5AsWUuyCoSsYTHS/Ax/LZJZku1iEqGPMTzyiLqI+KKhmS7/J+d74kk46Rx/SwNdmyjqCkKURZksaTSJk4sTAqr26PesvV0c+PCZJs253aN64WDZSzvpYO+dd6CqqA4VCkdb9uspiKjcMilc8cbUy2Xo82PHbk77XHILR7DDftBlzVaeW8G/DhFSkAtAAA/WqTBIoKR+ve9dtE/H8/2+jJVyjZRUao0J6HVrJLKEL15fGZsmw8QuXXHfMdedHL7Mtv6oIyZc9+F/ZPTFWeLmp8sR24KJixo1B+GGUTxHKrjN0ojvagGHPFQptXoeCZuE6pWeitezrIYbP6bJ8RCIRtrR0M="
-
-deploy:
-    provider: script
-    script: ./deploy
-    on:
-        repo: herschel666/tgif
-        branch: master
