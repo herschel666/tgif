@@ -10,6 +10,9 @@
     "test": "eslint .",
     "start": "node ."
   },
+  "engines": {
+    "node" : ">=6.10"
+  },
   "dependencies": {
     "eslint": "^3.15.0",
     "eslint-config-airbnb": "^14.1.0",
