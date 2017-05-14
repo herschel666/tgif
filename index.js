@@ -15,6 +15,23 @@ const getDaysTillFriday = () => {
     return 5 - currentDay;
 };
 
+const getMessage = (day) => {
+    switch (day) {
+    case 6:
+    case 5:
+        return 'What\'s wrong with you? Enjoy your weekend!';
+    case 4:
+        return 'Not at all. Sorry!';
+    case 3:
+    case 2:
+        return `Still ${day} days to go. Stay strong!`;
+    case 1:
+        return 'Almost there.';
+    default:
+        return 'Sorry, my calendar just exploded …!';
+    }
+};
+
 const getTgifGif = callback => request(SEARCH_URL, (err, res, body) => {
     if (!err && res.statusCode === 200) {
         return callback(null, sample(JSON.parse(body).data).images.downsized_medium.url);
@@ -29,7 +46,7 @@ const bot = new Telebot({
 bot.on('/tgif', (msg) => {
     const remainingDays = getDaysTillFriday();
     if (remainingDays !== 0) {
-        msg.reply.text(`Still ${remainingDays} days to go. Stay strong!`);
+        msg.reply.text(getMessage(remainingDays));
         return;
     }
     getTgifGif((err, gif) => {
