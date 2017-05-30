@@ -3,12 +3,16 @@ const request = require('request');
 const sample = require('lodash.sample');
 const Telebot = require('telebot');
 
+const DEV = process.env.NODE_ENV === 'development';
+
+const TGIF_CMD = DEV ? '/tgif_dev' : '/tgif';
+
 const SATURDAY = 6;
 
 const SEARCH_URL = 'https://api.giphy.com/v1/gifs/search?q=tgif&api_key=dc6zaTOxFJmzC';
 
-const getDaysTillFriday = () => {
-    const currentDay = (new Date()).getDay();
+const getDaysTillFriday = (timestamp) => {
+    const currentDay = (new Date(timestamp)).getDay();
     if (currentDay === SATURDAY) {
         return SATURDAY;
     }
@@ -43,8 +47,8 @@ const bot = new Telebot({
     token: process.env.TELEGRAM_BOT_TOKEN,
 });
 
-bot.on('/tgif', (msg) => {
-    const remainingDays = getDaysTillFriday();
+bot.on(TGIF_CMD, (msg) => {
+    const remainingDays = getDaysTillFriday(msg.date * 1000);
     if (remainingDays !== 0) {
         msg.reply.text(getMessage(remainingDays));
         return;
