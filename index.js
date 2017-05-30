@@ -1,6 +1,6 @@
 
 const request = require('request');
-const sample = require('lodash.sample');
+const shuffle = require('lodash.shuffle');
 const Telebot = require('telebot');
 
 const DEV = process.env.NODE_ENV === 'development';
@@ -10,6 +10,8 @@ const TGIF_CMD = DEV ? '/tgif_dev' : '/tgif';
 const SATURDAY = 6;
 
 const SEARCH_URL = 'https://api.giphy.com/v1/gifs/search?q=tgif&api_key=dc6zaTOxFJmzC';
+
+let gifs = null;
 
 const getDaysTillFriday = (timestamp) => {
     const currentDay = (new Date(timestamp)).getDay();
@@ -36,12 +38,20 @@ const getMessage = (day) => {
     }
 };
 
-const getTgifGif = callback => request(SEARCH_URL, (err, res, body) => {
-    if (!err && res.statusCode === 200) {
-        return callback(null, sample(JSON.parse(body).data).images.downsized_medium.url);
+const getTgifGif = (callback) => {
+    if (gifs) {
+        callback(null, gifs.pop());
+        return;
     }
-    return callback(err || body);
-});
+    request(SEARCH_URL, (err, res, body) => {
+        if (!err && res.statusCode === 200) {
+            gifs = shuffle(JSON.parse(body).data.map(({ images }) =>
+                images.downsized_medium.url));
+            return callback(null, gifs.pop());
+        }
+        return callback(err || body);
+    });
+};
 
 const bot = new Telebot({
     token: process.env.TELEGRAM_BOT_TOKEN,
@@ -51,11 +61,17 @@ bot.on(TGIF_CMD, (msg) => {
     const remainingDays = getDaysTillFriday(msg.date * 1000);
     if (remainingDays !== 0) {
         msg.reply.text(getMessage(remainingDays));
+        gifs = null;
         return;
     }
     getTgifGif((err, gif) => {
         if (err) {
+            console.error(err); // eslint-disable-line no-console
             msg.reply.text('It\'s friday!!! … but unfortunately I don\'t have a GIF for you. :-(');
+            return;
+        }
+        if (!gif) {
+            msg.reply.text('You\'ve consumed your weekly contingent of GIFs. Try again next week!');
             return;
         }
         msg.reply.sticker(gif);
@@ -63,3 +79,5 @@ bot.on(TGIF_CMD, (msg) => {
 });
 
 bot.start();
+
+process.on('unhandledRejection', console.error);  // eslint-disable-line no-console
