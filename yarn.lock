@@ -915,6 +915,10 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
+now@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/now/-/now-7.1.1.tgz#828999ae6ea7929a1fc06bf5120cfe697eb46cb4"
+
 number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"

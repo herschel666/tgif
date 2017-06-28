@@ -6,5 +6,6 @@ branches:
         - master
 
 cache:
+    yarn: true
     directories:
         - node_modules
