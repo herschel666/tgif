@@ -5,7 +5,9 @@ const Telebot = require('telebot');
 
 const DEV = process.env.NODE_ENV === 'development';
 
-const TGIF_CMD = DEV ? '/tgif_dev' : '/tgif';
+const TGIF_CMD_SUFFIX = DEV ? '_dev' : '';
+
+const TGIF_CMD = new RegExp(`^/(tgr?if|tgirf)${TGIF_CMD_SUFFIX}$`, 'i');
 
 const SATURDAY = 6;
 
