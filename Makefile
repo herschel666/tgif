@@ -12,4 +12,4 @@ push: build
 	gcloud docker -- push $(LOCAL_CONTAINER)
 
 deploy: push
-	gcloud app deploy --project $(PROJECT_ID) --image-url "$(LOCAL_CONTAINER):latest" --stop-previous-version --quiet
+	gcloud app deploy --project $(PROJECT_ID) --image-url "$(LOCAL_CONTAINER):latest" --version tgif --stop-previous-version --quiet
