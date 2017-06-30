@@ -83,3 +83,5 @@ bot.on(TGIF_CMD, (msg) => {
 bot.start();
 
 process.on('unhandledRejection', console.error);  // eslint-disable-line no-console
+
+module.exports = () => 'TGIF';
