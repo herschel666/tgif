@@ -8,7 +8,7 @@
   "license": "Beerware",
   "scripts": {
     "test": "eslint .",
-    "start": "node ."
+    "start": "micro"
   },
   "engines": {
     "node": ">=6.10"
@@ -24,6 +24,7 @@
     "eslint-plugin-jsx-a11y": "^3.0.2 || ^4.0.0",
     "eslint-plugin-react": "^6.9.0",
     "lodash.shuffle": "^4.2.0",
+    "micro": "^7.3.3",
     "now": "^7.1.1",
     "request": "^2.81.0",
     "telebot": "^1.1.0"
