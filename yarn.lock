@@ -1181,9 +1181,9 @@ node-version@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/node-version/-/node-version-1.0.0.tgz#1b9b9584a9a7f7a6123f215cd14a652bf21ab19e"
 
-now@^7.1.1:
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/now/-/now-7.1.1.tgz#828999ae6ea7929a1fc06bf5120cfe697eb46cb4"
+now@^7.3.0:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/now/-/now-7.3.0.tgz#c20b75fe8e40a3e84b3820aaaabe4ebea5b9f14a"
 
 npm-run-path@^1.0.0:
   version "1.0.0"
