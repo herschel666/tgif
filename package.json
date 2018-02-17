@@ -1,32 +1,34 @@
 {
   "name": "tgif",
   "version": "0.1.0",
-  "description": "A telegram bot helping you to find out whether it's time to celebrate the friday.",
-  "main": "index.js",
+  "description":
+    "A telegram bot helping you to find out whether it's time to celebrate the friday.",
+  "main": "tgif.js",
   "repository": "https://github.com/herschel666/tgif",
   "author": "Emanuel Kluge",
   "license": "Beerware",
   "scripts": {
-    "test": "eslint .",
-    "start": "micro"
+    "deploy": "claudia update --profile claudia",
+    "test": "tslint --format stylish --project tsconfig.json",
+    "build": "tsc",
+    "clean": "rm ./tgif.js"
   },
   "engines": {
     "node": ">=6.10"
   },
-  "now": {
-    "alias": "tgif-bot",
-    "type": "npm"
-  },
+  "files": ["tgif.js"],
   "dependencies": {
-    "eslint": "^3.15.0",
-    "eslint-config-airbnb": "^14.1.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^3.0.2 || ^4.0.0",
-    "eslint-plugin-react": "^6.9.0",
-    "lodash.shuffle": "^4.2.0",
-    "micro": "^7.3.3",
-    "now": "9.0.1",
-    "request": "^2.81.0",
-    "telebot": "^1.1.0"
+    "claudia": "3.3.1",
+    "claudia-bot-builder": "3.0.0",
+    "lodash.shuffle": "4.2.0",
+    "node-fetch": "2.0.0"
+  },
+  "devDependencies": {
+    "@types/lodash.shuffle": "4.2.3",
+    "@types/node": "9.4.6",
+    "@types/node-fetch": "1.6.7",
+    "tslint": "5.9.1",
+    "tslint-microsoft-contrib": "5.0.3",
+    "typescript": "2.7.2"
   }
 }

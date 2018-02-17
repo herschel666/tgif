@@ -1,0 +1,47 @@
+{
+    "rulesDirectory": ["./node_modules/tslint-microsoft-contrib"],
+    "extends": "tslint-microsoft-contrib/recommended_ruleset",
+    "rules": {
+        "align": [true, "parameters", "statements"],
+        "export-name": [0],
+        "import-name": [0],
+        "max-line-length": [true, 100],
+        "missing-jsdoc": [0],
+        "no-angle-bracket-type-assertion": true,
+        "no-cookies": [0],
+        "no-inner-html": false,
+        "no-default-export": true,
+        "no-empty-line-after-opening-brace": true,
+        "no-http-string": false,
+        "no-relative-imports": [0],
+        "no-require-imports": false,
+        "no-var-requires": false,
+        "no-unsafe-any": false,
+        "ordered-imports": false,
+        "prefer-type-cast": false,
+        "quotemark": [true, "single"],
+        "switch-default": false,
+        "trailing-comma": [
+            true,
+            {
+                "multiline": {
+                    "objects": "always",
+                    "arrays": "always",
+                    "functions": "never",
+                    "typeLiterals": "ignore"
+                },
+                "singleline": "never"
+            }
+        ],
+        "variable-name": [true, "ban-keywords"],
+        "strict-boolean-expressions": false,
+        "typedef": false,
+        "completed-docs": false,
+        "no-void-expression": false,
+        "prefer-method-signature": false,
+        "interface-name": [true, "never-prefix"],
+        "newline-before-return": false,
+        "no-multiline-string": false,
+        "await-promise": false
+    }
+}
