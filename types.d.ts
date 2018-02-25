@@ -58,3 +58,9 @@ declare module 'claudia-bot-builder' {
 
     export = claudiaBotbuilder;
 }
+
+declare namespace NodeJS {
+    interface Global {
+        dschiffCache: string[];
+    }
+}

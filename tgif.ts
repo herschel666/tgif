@@ -24,6 +24,8 @@ const options = {
     platforms: ['telegram'],
 };
 
+global.dschiffCache = global.dschiffCache || [];
+
 const getDaysTillFriday = (timestamp: number): number => {
     const currentDay = new Date(timestamp).getDay();
     if (currentDay === SATURDAY) {
@@ -49,14 +51,25 @@ const getMessage = (day: number): string => {
     }
 };
 
-const getTgifGif = async (): Promise<TelegramStickerReply | string> => {
-    try {
+const getDschiff = async (): Promise<string> => {
+    if (global.dschiffCache.length === 0) {
         const res = await fetch(SEARCH_URL);
         const body = await res.json();
+
+        global.dschiffCache.concat(
+            shuffle(
+                body.data.map((data: Giphy) => data.images.downsized_medium.url)
+            )
+        );
+    }
+
+    return global.dschiffCache.pop();
+};
+
+const getTgifDschiff = async (): Promise<TelegramStickerReply | string> => {
+    try {
         const { Sticker } = botBuilder.telegramTemplate;
-        const imageUrl = shuffle(
-            body.data.map((data: Giphy) => data.images.downsized_medium.url)
-        ).pop();
+        const imageUrl = await getDschiff();
         const sticker = new Sticker(imageUrl);
 
         return sticker.get();
@@ -77,5 +90,5 @@ module.exports = botBuilder(async msg => {
     if (remainingDays !== 0) {
         return Promise.resolve(getMessage(remainingDays));
     }
-    return getTgifGif();
+    return getTgifDschiff();
 }, options);
