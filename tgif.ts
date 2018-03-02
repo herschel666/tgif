@@ -59,7 +59,7 @@ const getDschiff = async (): Promise<string> => {
         const res = await fetch(SEARCH_URL);
         const body = await res.json();
 
-        global.dschiffCache.concat(
+        global.dschiffCache = global.dschiffCache.concat(
             shuffle(
                 body.data.map((data: Giphy) => data.images.downsized_medium.url)
             )
