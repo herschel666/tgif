@@ -20,6 +20,9 @@ const SATURDAY = 6;
 const SEARCH_URL =
     'https://api.giphy.com/v1/gifs/search?q=tgif&api_key=dc6zaTOxFJmzC';
 
+const FALLBACK_GIF =
+    'https://media.giphy.com/media/xT0BKFyZt9MMx9xkpW/giphy.gif';
+
 const options = {
     platforms: ['telegram'],
 };
@@ -70,7 +73,7 @@ const getTgifDschiff = async (): Promise<TelegramStickerReply | string> => {
     try {
         const { Sticker } = botBuilder.telegramTemplate;
         const imageUrl = await getDschiff();
-        const sticker = new Sticker(imageUrl);
+        const sticker = new Sticker(imageUrl || FALLBACK_GIF);
 
         return sticker.get();
     } catch {
