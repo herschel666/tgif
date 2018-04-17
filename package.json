@@ -8,7 +8,7 @@
   "author": "Emanuel Kluge",
   "license": "Beerware",
   "scripts": {
-    "deploy": "claudia update --profile claudia",
+    "deploy": "claudia update --profile ek-tgif-bot --runtime nodejs8.10",
     "test": "tslint --format stylish --project tsconfig.json",
     "build": "tsc",
     "clean": "rm -fv ./tgif.js"
