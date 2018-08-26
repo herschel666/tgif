@@ -1,8 +1,7 @@
 {
   "name": "tgif",
   "version": "0.1.0",
-  "description":
-    "A telegram bot helping you to find out whether it's time to celebrate the friday.",
+  "description": "A telegram bot helping you to find out whether it's time to celebrate the friday.",
   "main": "tgif.js",
   "repository": "https://github.com/herschel666/tgif",
   "author": "Emanuel Kluge",
@@ -16,10 +15,12 @@
   "engines": {
     "node": ">=6.10"
   },
-  "files": ["tgif.js"],
+  "files": [
+    "tgif.js"
+  ],
   "dependencies": {
     "claudia": "3.3.1",
-    "claudia-bot-builder": "3.0.0",
+    "claudia-bot-builder": "4.3.1",
     "lodash.shuffle": "4.2.0",
     "node-fetch": "2.0.0"
   },
