@@ -3,6 +3,8 @@
 
 A telegram-bot that helps you identifying the holy friday. Just type in `/tgif` and submit. `@tgif` has your back.
 
+![Powered by Giphy](./giphy.png)
+
 ## License
 
 "THE BEER-WARE LICENSE" (Revision 42): <phk@FreeBSD.ORG> wrote this file.
