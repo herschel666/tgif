@@ -7,7 +7,8 @@
   "author": "Emanuel Kluge",
   "license": "Beerware",
   "scripts": {
-    "deploy": "claudia update --profile ek-tgif-bot --runtime nodejs8.10",
+    "predeploy": "if [ -z \"${GIPHY_API_KEY}\" ]; then exit 1; fi",
+    "deploy": "claudia update --profile ek-tgif-bot --runtime nodejs8.10 --set-env GIPHY_API_KEY=$GIPHY_API_KEY",
     "test": "tslint --format stylish --project tsconfig.json",
     "build": "tsc",
     "clean": "rm -fv ./tgif.js"
