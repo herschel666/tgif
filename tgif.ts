@@ -94,7 +94,7 @@ module.exports = botBuilder(async msg => {
         msg.originalRequest.message.date * 1000
     );
     if (remainingDays !== 0) {
-        return Promise.resolve(getMessage(remainingDays));
+        return getMessage(remainingDays);
     }
     return getTgifDschiff();
 }, options);
