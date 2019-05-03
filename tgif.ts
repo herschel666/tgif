@@ -78,7 +78,8 @@ const getTgifDschiff = async (): Promise<TelegramStickerReply | string> => {
         const sticker = new Sticker(imageUrl || FALLBACK_GIF);
 
         return sticker.get();
-    } catch {
+    } catch (err) {
+        console.log(err); // tslint:disable-line no-console
         return `Sorry, I failed … ;-(`;
     }
 };
