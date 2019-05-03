@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import fetch, { Headers } from 'node-fetch';
 import shuffle = require('lodash.shuffle');
 import botBuilder = require('claudia-bot-builder');
 
@@ -11,6 +11,10 @@ interface Giphy {
 interface TelegramStickerReply {
     method: 'sendSticker';
     body: string;
+}
+
+interface PlainObject {
+    [v: string] : string;
 }
 
 const TGIF_CMD = /^\/(tgr?if|tgirf)$/i;
@@ -56,10 +60,22 @@ const getMessage = (day: number): string => {
     }
 };
 
+const logHeaders = (headers: Headers): void => {
+    let headerObject: PlainObject = {};
+
+    headers.forEach((v: string, k: string) => {
+        headerObject[k] = v;
+    });
+
+    console.log(headerObject);
+}
+
 const getDschiff = async (): Promise<string> => {
     if (global.dschiffCache.length === 0) {
         const res = await fetch(SEARCH_URL);
         const body = await res.json();
+
+        logHeaders(res.headers);
 
         global.dschiffCache = global.dschiffCache.concat(
             shuffle(
