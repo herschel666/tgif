@@ -17,8 +17,10 @@ const TGIF_CMD = /^\/(tgr?if|tgirf)$/i;
 
 const SATURDAY = 6;
 
+const { GIPHY_API_KEY = '' } = process.env;
+
 const SEARCH_URL =
-    'https://api.giphy.com/v1/gifs/search?q=tgif&api_key=dc6zaTOxFJmzC';
+    `https://api.giphy.com/v1/gifs/search?q=tgif&api_key=${GIPHY_API_KEY}`;
 
 const FALLBACK_GIF =
     'https://media.giphy.com/media/xT0BKFyZt9MMx9xkpW/giphy.gif';
