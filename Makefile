@@ -65,10 +65,10 @@ guard-%:
 
 .venv/bin/aws: .venv/bin/activate
 	source ./.venv/bin/activate
-	pip install awscli
+	pip3 install awscli
 
 .venv/bin/sam: .venv/bin/activate
 	source ./.venv/bin/activate
-	pip install aws-sam-cli
+	pip3 install aws-sam-cli
 
 .PHONY: mb run package deploy upload clean setWebhook deleteWebhook guard-%
