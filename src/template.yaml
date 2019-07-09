@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: SAM Template for the Tgif bot
+
+Globals:
+  Function:
+    Timeout: 5
+
+Parameters:
+  StageName:
+    Type: String
+  TelegramBotToken:
+    Type: String
+  GiphyApiKey:
+    Type: String
+
+Resources:
+  TgifFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: tgif/
+      Handler: app.lambdaHandler
+      Runtime: nodejs10.x
+      Environment:
+        Variables:
+          TELEGRAM_BOT_TOKEN: !Ref TelegramBotToken
+          GIPHY_API_KEY: !Ref GiphyApiKey
+      Events:
+        Tgif:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TgifApi
+            Path: /tgif
+            Method: post
+
+  TgifApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref StageName
+
+Outputs:
+  TgifApi:
+    Description: 'API Gateway endpoint URL for Prod stage for Tgif function'
+    Value: !Sub 'https://${TgifApi}.execute-api.${AWS::Region}.amazonaws.com/${StageName}/tgif/'
+  TgifFunction:
+    Description: 'Tgif Lambda Function ARN'
+    Value: !GetAtt TgifFunction.Arn
+  TgifFunctionIamRole:
+    Description: 'Implicit IAM Role created for Tgif function'
+    Value: !GetAtt TgifFunctionRole.Arn

@@ -128,4 +128,5 @@ crashlytics-build.properties
 
 ## Project
 .env
-tgif.js
+.venv
+dist

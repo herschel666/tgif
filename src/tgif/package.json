@@ -1,0 +1,12 @@
+{
+  "name": "tgif",
+  "version": "1.0.0",
+  "main": "app.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha tests/unit/"
+  },
+  "dependencies": {
+    "lodash.sample": "^4.2.1"
+  }
+}
