@@ -1,36 +1,22 @@
 {
-  "name": "tgif",
-  "version": "0.1.0",
-  "description": "A telegram bot helping you to find out whether it's time to celebrate the friday.",
-  "main": "tgif.js",
-  "repository": "https://github.com/herschel666/tgif",
-  "author": "Emanuel Kluge",
-  "license": "Beerware",
+  "name": "tgif-root",
   "scripts": {
-    "predeploy": "if [ -z \"${GIPHY_API_KEY}\" ]; then exit 1; fi",
-    "deploy": "claudia update --profile ek-tgif-bot --runtime nodejs8.10 --set-env GIPHY_API_KEY=$GIPHY_API_KEY",
-    "test": "tslint --format stylish --project tsconfig.json",
-    "build": "tsc",
-    "clean": "rm -fv ./tgif.js"
+    "test": "eslint src"
   },
-  "engines": {
-    "node": ">=6.10"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/herschel666/tgif.git"
   },
-  "files": [
-    "tgif.js"
-  ],
-  "dependencies": {
-    "claudia": "3.3.1",
-    "claudia-bot-builder": "4.3.1",
-    "lodash.shuffle": "4.2.0",
-    "node-fetch": "2.0.0"
+  "author": "Emanuel Kluge (https://www.emanuel-kluge.de/)",
+  "license": "beerware",
+  "bugs": {
+    "url": "https://github.com/herschel666/tgif/issues"
   },
+  "homepage": "https://github.com/herschel666/tgif#readme",
   "devDependencies": {
-    "@types/lodash.shuffle": "4.2.3",
-    "@types/node": "9.4.6",
-    "@types/node-fetch": "1.6.7",
-    "tslint": "5.9.1",
-    "tslint-microsoft-contrib": "5.0.3",
-    "typescript": "2.7.2"
+    "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "prettier": "^1.18.2"
   }
 }
