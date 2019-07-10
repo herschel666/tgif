@@ -34,8 +34,8 @@ deploy: .venv/bin/sam package guard-TELEGRAM_BOT_TOKEN guard-GIPHY_API_KEY
 			GiphyApiKey=$(GIPHY_API_KEY) \
 			StageName=$(STAGE)
 
-delete: .venv/bin/sam
-	aws cloudformation delete-stack \
+delete: .venv/bin/aws
+	@ aws cloudformation delete-stack \
 		--region $(AWS_REGION) \
 		--stack-name $(STACK_NAME)-$(STAGE)
 
@@ -69,6 +69,6 @@ guard-%:
 
 .venv/bin/sam: .venv/bin/activate
 	source ./.venv/bin/activate
-	pip3 install aws-sam-cli
+	pip3 install --user aws-sam-cli
 
 .PHONY: mb run package deploy upload clean setWebhook deleteWebhook guard-%
