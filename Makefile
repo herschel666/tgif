@@ -16,14 +16,14 @@ run: .venv/bin/sam src
 		--template src/template.yaml \
 		--debug
 
-package: .venv/bin/sam clean
+package: .venv/bin/aws .venv/bin/sam clean
 	@ sam package \
 		--region $(AWS_REGION) \
 		--template-file src/template.yaml \
 		--output-template-file dist/packaged.yaml \
 		--s3-bucket $(BUCKET_NAME)
 
-deploy: .venv/bin/sam package guard-TELEGRAM_BOT_TOKEN guard-GIPHY_API_KEY
+deploy: .venv/bin/aws .venv/bin/sam package guard-TELEGRAM_BOT_TOKEN guard-GIPHY_API_KEY
 	@ sam deploy \
 		--region $(AWS_REGION) \
 		--template-file dist/packaged.yaml \
