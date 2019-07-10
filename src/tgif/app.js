@@ -12,6 +12,8 @@ const FALLBACK_GIF =
 
 const TELEGRAM_BASE_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/`;
 
+const TGIF_CMD = /^\/(tgr?if|tgirf)$/i;
+
 const getStickerUrl = (chatId, sticker) =>
   `${TELEGRAM_BASE_URL}sendSticker?sticker=${encodeURIComponent(
     sticker
@@ -61,6 +63,11 @@ const get = (url) =>
 exports.lambdaHandler = async (event) => {
   console.log(event);
   const { message } = JSON.parse(event.body);
+
+  if (!TGIF_CMD.test(message.text.trim())) {
+    return null;
+  }
+
   const chatId = message.chat.id;
   const remainingDays = getDaysTillFriday(message.date * 1000);
   let response = {
