@@ -1,14 +1,16 @@
-dist: trusty
-
-language: node_js
+language: python
+python:
+  - '3.6'
 
 branches:
   only:
     - master
 
 cache:
+  pip: true
+  npm: true
   directories:
-    - node_modules
+    - .venv
 
 env:
   global:
@@ -18,9 +20,11 @@ env:
     - secure: 'FrsoU2VlPY3GN0yTmHY+YL/C6XduDWqCqMjphTbYS+GZjwKk8gkMZIgvd2DBzFpxeYnPmcWOBr40ucV8DcOsG0X23lPJl7Sj+tYho1fI9hVngKhefJvgrhKszp/lAh1ujIeZuAYs/jnm8u+SxeFW0yb1ZUf3X6Fx0E9CpKKy/x98yJZa3FWXJTSXoPBxZyueHA0yZyznDXoenUw9sclWGeNCuXrCdLQHdrXckt6I1g9ad1jpfmZy95MWesZj1cLEsGPXmL1I2KX2emCTN8MDguDmgoW5AbARiFO3r68V/1w3KRj73rEYZpsHQjeoPwkVSrog9Y97orGu0xaSx7DmYrlhjRwue0KcK+9R8iukq2zSYaw7XoYQ/oL0NKInoDSy2fxKJBkHUU42gufenq4wnPhcx4yNKxfOWXvjJIuMWS92o4QLjteANrNd5j+XOG7MuI8iMlnG/mXy9zsblcaGQmhW0f/eNxW2Crg3v85IcywpKqmA1eK/wVH8stEgPiMtST4qqY631bMbp26ccitrdYnJsQeg0R+GS5olWFC02ajck4x8PYMgtDKoHP1D/4GAXd+O2dxhUPuBEdU2+U+0mi1wAVoJaaIW7BJOfjD+Pos5BTBaua6RUw3pnIv2vdaYVRcXL9qm/fDNvVdFLpiYrD4JdaSWDcBUipBSY84zkvs='
     - secure: 'nC2wOoMkKCLH6m4liKA1+8U//T2Z8Fcatgdy+Am9rMEmEts3ktPIXnrp7QcRib3O+Vh2c2/Rx6hrV2F4qIRuCyxRl3apJ0guzKGnaIAlwxaYQg/4DxCaGNmi3qu2jGJ7fIfkqGbaA/zNILCOCavXmcoBfY0DWtnoHxBSrb6AVytnX1wZFujlvrs/xZ50T2NAmlyLK9KdMWqe7/gR3isl3Yt2cKHSvSmTcYmWfPg+fZRKnU4grAfVaKuNIpykqM/podJbQ31VkPOjLceSSVImxmRxL0JF2eMgPqBlloTvbKYAWDQJsJwR7W/hiyNo/QZyoCQZxuhNaytuRVspMdlk9x2NYJASsV5MenAQnoZArc59kXpcktRSS8MZgmKMbhDIm2sp+4biANceyxrOuWn8tM0U43zQesb48Cht5QW9BOJMoyZHiOYBVll3pQyOVO9MpZjgI/uyQoqsS4YZcw9Gu3tp3TX8VLDK6I7M3NjqG+ox5zV1Iu16SlXg7Sh1M3ardNGIsrMP+503bl/4LG/sVr585N9v8S0WSxIZA4eAvUUycq/S1xM9lQkof7uAjOVl6lmuWAnQoZz5lQvbWmE9qhAFK3OzjVGUo7ALAt5jVZu4pJ5aDsFnt7UtmYAT3MwX/+uY5ukyfoYMDwCux3IJUaTAU6gt4v8oinOOeKpwGeU='
 
-before_deploy:
-  - sudo apt-get update
-  - sudo apt-get install -y python3.4-venv python3-pip
+before_install: nvm install
+
+install: npm ci
+
+script: npm test
 
 deploy:
   - provider: script
