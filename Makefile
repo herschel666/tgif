@@ -69,6 +69,6 @@ guard-%:
 
 .venv/bin/sam: .venv/bin/activate
 	source ./.venv/bin/activate
-	pip install --user aws-sam-cli
+	pip install aws-sam-cli
 
 .PHONY: mb run package deploy upload clean setWebhook deleteWebhook guard-%
