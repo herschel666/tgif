@@ -13,6 +13,9 @@ Parameters:
     Type: String
   GiphyApiKey:
     Type: String
+  GitSha:
+    Type: String
+    Default: dev
 
 Resources:
   TgifFunction:
@@ -25,6 +28,7 @@ Resources:
         Variables:
           TELEGRAM_BOT_TOKEN: !Ref TelegramBotToken
           GIPHY_API_KEY: !Ref GiphyApiKey
+          GIT_SHA: !Ref GitSha
       Events:
         Tgif:
           Type: Api
