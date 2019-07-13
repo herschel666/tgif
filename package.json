@@ -2,7 +2,7 @@
   "name": "tgif-root",
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "lint": "eslint src",
+    "lint": "eslint --ignore-path .gitignore src",
     "ava": "ava",
     "test": "npm-run-all -p lint ava"
   },
@@ -33,7 +33,8 @@
     ],
     "environmentVariables": {
       "GIPHY_API_KEY": "giphy-api-key",
-      "TELEGRAM_BOT_TOKEN": "-telegram-bot-token"
+      "TELEGRAM_BOT_TOKEN": "-telegram-bot-token",
+      "GIT_SHA": "test"
     }
   }
 }
