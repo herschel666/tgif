@@ -1,5 +1,5 @@
 module.exports = {
-  parser: 'esprima',
+  parser: 'babel-eslint',
   extends: ['plugin:prettier/recommended'],
   parserOptions: {
     ecmaVersion: 7,
