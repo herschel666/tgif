@@ -1,6 +1,7 @@
 const { tgif } = require('./tgif');
 
 exports.lambdaHandler = async (event) => {
+  console.log('Version: %s', process.env.GIT_SHA);
   console.log(event);
   const { message } = JSON.parse(event.body);
 

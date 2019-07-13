@@ -5,6 +5,7 @@ AWS_REGION ?= eu-central-1
 BUCKET_NAME = ek-tgif-bot-deployment
 STACK_NAME = ek-tgif-bot
 STAGE ?= dev
+TRAVIS_COMMIT ?= dev
 
 mb: .venv/bin/aws
 	@ aws --region $(AWS_REGION) \
@@ -32,7 +33,8 @@ deploy: .venv/bin/aws .venv/bin/sam package guard-TELEGRAM_BOT_TOKEN guard-GIPHY
 		--parameter-overrides \
 			TelegramBotToken=$(TELEGRAM_BOT_TOKEN) \
 			GiphyApiKey=$(GIPHY_API_KEY) \
-			StageName=$(STAGE)
+			StageName=$(STAGE) \
+			GitSha=$(TRAVIS_COMMIT)
 
 delete: .venv/bin/aws
 	@ aws cloudformation delete-stack \
