@@ -4,7 +4,8 @@
     "bootstrap": "lerna bootstrap",
     "lint": "eslint --ignore-path .gitignore src",
     "ava": "ava",
-    "test": "npm-run-all -p lint ava"
+    "test": "npm-run-all -p lint ava",
+    "fmt": "prettier --config ./.prettierrc --ignore-path ./.prettierignore --write \"**/**.{js,md}\""
   },
   "repository": {
     "type": "git",
