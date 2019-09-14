@@ -1,5 +1,4 @@
-`@tgif`
-====
+# `@tgif`
 
 A telegram-bot that helps you identifying the holy friday. Just type in `/tgif` and submit. `@tgif` has your back.
 
