@@ -25,7 +25,18 @@ const getMessageUrl = (chatId, text) =>
   )}&chat_id=${chatId}`;
 
 const getDaysTillFriday = (timestamp) => {
-  const currentDay = new Date(timestamp).getDay();
+  // Hack a CET date object :-|
+  const options = {
+    timeZone: 'Europe/Berlin',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  };
+  const formatter = new Intl.DateTimeFormat([], options);
+  const currentDay = new Date(formatter.format(new Date(timestamp))).getDay();
   if (currentDay === SATURDAY) {
     return SATURDAY;
   }
