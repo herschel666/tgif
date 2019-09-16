@@ -42,6 +42,14 @@ Resources:
     Properties:
       StageName: !Ref StageName
 
+  TgifLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - TgifFunction
+    Properties:
+      LogGroupName: !Sub '/aws/lambda/${TgifFunction}'
+      RetentionInDays: 7
+
 Outputs:
   TgifApi:
     Description: 'API Gateway endpoint URL for Prod stage for Tgif function'
