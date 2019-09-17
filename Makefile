@@ -24,7 +24,7 @@ package: .venv/bin/aws .venv/bin/sam clean
 		--output-template-file dist/packaged.yaml \
 		--s3-bucket $(BUCKET_NAME)
 
-deploy: .venv/bin/aws .venv/bin/sam package guard-TELEGRAM_BOT_TOKEN guard-GIPHY_API_KEY
+deploy: .venv/bin/aws .venv/bin/sam package guard-TELEGRAM_BOT_TOKEN guard-GIPHY_API_KEY guard-EMAIL
 	@ sam deploy \
 		--region $(AWS_REGION) \
 		--template-file dist/packaged.yaml \
@@ -34,7 +34,8 @@ deploy: .venv/bin/aws .venv/bin/sam package guard-TELEGRAM_BOT_TOKEN guard-GIPHY
 			TelegramBotToken=$(TELEGRAM_BOT_TOKEN) \
 			GiphyApiKey=$(GIPHY_API_KEY) \
 			StageName=$(STAGE) \
-			GitSha=$(TRAVIS_COMMIT)
+			GitSha=$(TRAVIS_COMMIT) \
+			AlarmRecipient=$(EMAIL)
 
 delete: .venv/bin/aws
 	@ aws cloudformation delete-stack \

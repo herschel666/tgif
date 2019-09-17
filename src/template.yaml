@@ -16,6 +16,8 @@ Parameters:
   GitSha:
     Type: String
     Default: dev
+  AlarmRecipient:
+    Type: String
 
 Resources:
   TgifFunction:
@@ -49,6 +51,34 @@ Resources:
     Properties:
       LogGroupName: !Sub '/aws/lambda/${TgifFunction}'
       RetentionInDays: 7
+
+  ErrorTopic:
+    Type: AWS::SNS::Topic
+
+  ErrorTopicEmailSubscriber:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: !Ref AlarmRecipient
+      Protocol: email
+      TopicArn: !Ref ErrorTopic
+
+  ErrorAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub 'Errors-${TgifFunction}'
+      AlarmDescription: 'Alarm when errors occur.'
+      Namespace: 'AWS/Lambda'
+      MetricName: Errors
+      Dimensions:
+        - Name: FunctionName
+          Value: !Ref TgifFunction
+      Statistic: Sum
+      Period: 60
+      EvaluationPeriods: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      Threshold: 1
+      AlarmActions:
+        - !Ref ErrorTopic
 
 Outputs:
   TgifApi:
