@@ -2,7 +2,7 @@
 SHELL := /bin/bash
 
 AWS_REGION ?= eu-central-1
-BUCKET_NAME = ek-tgif-bot-deployment
+BUCKET_NAME = ek-geloetsinstallationen-ftw
 STACK_NAME = ek-tgif-bot
 STAGE ?= dev
 TRAVIS_COMMIT ?= dev
