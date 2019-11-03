@@ -54,6 +54,10 @@ test('wrong command', async (t) => {
   t.is(await tgif(event({ text: '/tgirff' })), null);
 });
 
+test('missing text, e.g. channel name update', async (t) => {
+  t.is(await tgif(event({})), null);
+});
+
 [['saturday', SATURDAY], ['sunday', SUNDAY]].forEach(([day, date]) =>
   test(`Handling ${day}`, async (t) => {
     const scope = nock(TELEGRAM_HOSTNAME)
