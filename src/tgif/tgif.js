@@ -74,7 +74,7 @@ const get = (url) =>
 const handler = async (data) => {
   const { text, chatId, date } = data;
 
-  if (!TGIF_CMD.test(text.trim())) {
+  if (!text || !TGIF_CMD.test(text.trim())) {
     return null;
   }
 
