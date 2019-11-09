@@ -58,7 +58,10 @@ test('missing text, e.g. channel name update', async (t) => {
   t.is(await tgif(event({})), null);
 });
 
-[['saturday', SATURDAY], ['sunday', SUNDAY]].forEach(([day, date]) =>
+[
+  ['saturday', SATURDAY],
+  ['sunday', SUNDAY],
+].forEach(([day, date]) =>
   test(`Handling ${day}`, async (t) => {
     const scope = nock(TELEGRAM_HOSTNAME)
       .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
