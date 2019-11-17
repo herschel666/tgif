@@ -26,6 +26,20 @@ Parameters:
     Type: String
 
 Resources:
+  GetIndexFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: tgif/
+      Handler: app.getIndexHandler
+      Runtime: nodejs10.x
+      Events:
+        Tgif:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TgifApi
+            Path: /
+            Method: get
+
   TgifFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -50,6 +64,14 @@ Resources:
     Properties:
       StageName: !Ref StageName
       EndpointConfiguration: EDGE
+
+  GetIndexLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - GetIndexFunction
+    Properties:
+      LogGroupName: !Sub '/aws/lambda/${GetIndexFunction}'
+      RetentionInDays: 7
 
   TgifLogGroup:
     Type: AWS::Logs::LogGroup
