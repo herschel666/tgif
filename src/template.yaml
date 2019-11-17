@@ -29,7 +29,7 @@ Resources:
   GetIndexFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: tgif/
+      CodeUri: get-index/
       Handler: app.getIndexHandler
       Runtime: nodejs10.x
       Events:
