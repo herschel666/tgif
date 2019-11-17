@@ -32,6 +32,9 @@ Resources:
       CodeUri: get-index/
       Handler: app.getIndexHandler
       Runtime: nodejs10.x
+      Environment:
+        Variables:
+          STAGE: !Ref StageName
       Events:
         Tgif:
           Type: Api
