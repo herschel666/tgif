@@ -30,7 +30,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: tgif/
-      Handler: app.lambdaHandler
+      Handler: app.tgifHandler
       Runtime: nodejs10.x
       Environment:
         Variables:
