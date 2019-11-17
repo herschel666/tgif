@@ -9,6 +9,12 @@ Globals:
 Parameters:
   StageName:
     Type: String
+  DomainName:
+    Type: String
+  Zone:
+    Type: String
+  CertificateArn:
+    Type: String
   TelegramBotToken:
     Type: String
   GiphyApiKey:
@@ -43,6 +49,7 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: !Ref StageName
+      EndpointConfiguration: EDGE
 
   TgifLogGroup:
     Type: AWS::Logs::LogGroup
@@ -79,6 +86,34 @@ Resources:
       Threshold: 1
       AlarmActions:
         - !Ref ErrorTopic
+
+  CustomDomainName:
+    Type: AWS::ApiGateway::DomainName
+    Properties:
+      DomainName: !Ref DomainName
+      CertificateArn: !Ref CertificateArn
+      EndpointConfiguration:
+        Types:
+          - EDGE
+
+  DomainRecordSet:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      Name: !Ref DomainName
+      HostedZoneId: !Ref Zone
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt CustomDomainName.DistributionDomainName
+        # Standard Zone ID for Cloudfront distribution
+        HostedZoneId: Z2FDTNDATAQYW2
+
+  BasePathMapping:
+    Type: AWS::ApiGateway::BasePathMapping
+    Properties:
+      BasePath: (none)
+      DomainName: !Ref DomainName
+      RestApiId: !Ref TgifApi
+      Stage: !Ref StageName
 
 Outputs:
   TgifApi:

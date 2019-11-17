@@ -24,7 +24,14 @@ package: .venv/bin/aws .venv/bin/sam clean
 		--output-template-file dist/packaged.yaml \
 		--s3-bucket $(BUCKET_NAME)
 
-deploy: .venv/bin/aws .venv/bin/sam package guard-TELEGRAM_BOT_TOKEN guard-GIPHY_API_KEY guard-EMAIL
+deploy: .venv/bin/aws .venv/bin/sam package
+deploy: guard-TELEGRAM_BOT_TOKEN
+deploy: guard-GIPHY_API_KEY
+deploy: guard-EMAIL
+deploy: guard-HOSTED_ZONE_ID
+deploy: guard-CERTIFICATE_ARN
+deploy: guard-DOMAIN_NAME
+deploy:
 	@ sam deploy \
 		--region $(AWS_REGION) \
 		--template-file dist/packaged.yaml \
@@ -33,6 +40,9 @@ deploy: .venv/bin/aws .venv/bin/sam package guard-TELEGRAM_BOT_TOKEN guard-GIPHY
 		--parameter-overrides \
 			TelegramBotToken=$(TELEGRAM_BOT_TOKEN) \
 			GiphyApiKey=$(GIPHY_API_KEY) \
+			Zone=$(HOSTED_ZONE_ID) \
+			CertificateArn=$(CERTIFICATE_ARN) \
+			DomainName=$(DOMAIN_NAME) \
 			StageName=$(STAGE) \
 			GitSha=$(TRAVIS_COMMIT) \
 			AlarmRecipient=$(EMAIL)
