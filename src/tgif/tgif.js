@@ -17,12 +17,12 @@ const TGIF_CMD = /^\/(tgr?if|tgirf)$/i;
 const getStickerUrl = (chatId, sticker) =>
   `${TELEGRAM_BASE_URL}sendSticker?sticker=${encodeURIComponent(
     sticker
-  )}&chat_id=${chatId}`;
+  )}&chat_id=${chatId}&disable_notification=true`;
 
 const getMessageUrl = (chatId, text) =>
   `${TELEGRAM_BASE_URL}sendMessage?text=${encodeURIComponent(
     text
-  )}&chat_id=${chatId}`;
+  )}&chat_id=${chatId}&disable_notification=true`;
 
 const getDaysTillFriday = (timestamp) => {
   // Hack a CET date object :-|

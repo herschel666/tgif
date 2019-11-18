@@ -68,6 +68,7 @@ test('missing text, e.g. channel name update', async (t) => {
       .query({
         text: `What's wrong with you? Enjoy your weekend!`,
         chat_id: CHAT_ID,
+        disable_notification: true,
       })
       .reply(200, {});
     const result = await tgif(event({ text: '/tgif', date }));
@@ -83,6 +84,7 @@ test('handling mondays', async (t) => {
     .query({
       text: 'Not at all. Sorry!',
       chat_id: CHAT_ID,
+      disable_notification: true,
     })
     .reply(200, {});
   const result = await tgif(event({ text: '/tgif', date: MONDAY }));
@@ -97,6 +99,7 @@ test('handling tuesdays', async (t) => {
     .query({
       text: 'Still 3 days to go. Stay strong!',
       chat_id: CHAT_ID,
+      disable_notification: true,
     })
     .reply(200, {});
   const result = await tgif(event({ text: '/tgif', date: TUESDAY }));
@@ -111,6 +114,7 @@ test('handling wednesdays', async (t) => {
     .query({
       text: 'Still 2 days to go. Stay strong!',
       chat_id: CHAT_ID,
+      disable_notification: true,
     })
     .reply(200, {});
   const result = await tgif(event({ text: '/tgif', date: WEDNESDAY }));
@@ -125,6 +129,7 @@ test('handling thursdays', async (t) => {
     .query({
       text: 'Almost there.',
       chat_id: CHAT_ID,
+      disable_notification: true,
     })
     .reply(200, {});
   const result = await tgif(event({ text: '/tgif', date: THURSDAY }));
@@ -163,6 +168,7 @@ test('handling fridays with empty Giphy response', async (t) => {
     .query({
       sticker: FALLBACK_GIF,
       chat_id: CHAT_ID,
+      disable_notification: true,
     })
     .reply(200, {});
   const result = await tgif(event({ text: '/tgif', date: FRIDAY }));
