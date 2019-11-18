@@ -68,6 +68,21 @@ Resources:
       StageName: !Ref StageName
       EndpointConfiguration: EDGE
 
+  TgifTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: TgifTable
+      AttributeDefinitions:
+        - AttributeName: ItemType
+          AttributeType: S
+      KeySchema:
+        - AttributeName: ItemType
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      TimeToLiveSpecification:
+        AttributeName: TTL
+        Enabled: true
+
   GetIndexLogGroup:
     Type: AWS::Logs::LogGroup
     DependsOn:
