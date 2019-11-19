@@ -1,7 +1,9 @@
 const { get: request } = require('https');
 const sample = require('lodash.sample');
 
-const { TELEGRAM_BOT_TOKEN, GIPHY_API_KEY, EK_USER_ID } = process.env;
+const { STAGE, TELEGRAM_BOT_TOKEN, GIPHY_API_KEY, EK_USER_ID } = process.env;
+
+const BOT_NAME = STAGE === 'prod' ? 'ek_tgif_bot' : 'ek_tgif_dev_bot';
 
 const SEARCH_URL = `https://api.giphy.com/v1/gifs/search?q=tgif&api_key=${GIPHY_API_KEY}`;
 
@@ -18,15 +20,40 @@ const TGIF_SETTINGS_CMD = new RegExp(`${RE_TGIF}\\s+settings$`, 'i');
 
 const SETTINGS_ALPHA_USERS = [Number(EK_USER_ID)];
 
-const getStickerUrl = (chatId, sticker) =>
-  `${TELEGRAM_BASE_URL}sendSticker?sticker=${encodeURIComponent(
-    sticker
-  )}&chat_id=${chatId}&disable_notification=true`;
+const BLOCKED_BY_USER_MSG = `
+Sorry, but you have to start a conversation with me first.
 
-const getMessageUrl = (chatId, text, silent = true) =>
-  `${TELEGRAM_BASE_URL}sendMessage?text=${encodeURIComponent(
-    text
-  )}&chat_id=${chatId}${silent ? '&disable_notification=true' : ''}`;
+Follow the link https://t.me/${BOT_NAME} to do this.
+
+Cheers!
+`.trim();
+
+const getStickerUrl = (chatId, sticker) => {
+  const qs = new URLSearchParams({
+    chat_id: chatId,
+    disable_notification: true,
+    sticker,
+  });
+
+  return `${TELEGRAM_BASE_URL}sendSticker?${qs.toString()}`;
+};
+
+const getMessageUrl = (chatId, text, silent = true, messageId) => {
+  const qs = new URLSearchParams({
+    chat_id: chatId,
+    text,
+  });
+
+  if (silent) {
+    qs.append('disable_notification', true);
+  }
+
+  if (messageId) {
+    qs.append('reply_to_message_id', messageId);
+  }
+
+  return `${TELEGRAM_BASE_URL}sendMessage?${qs.toString()}`;
+};
 
 const getDaysTillFriday = (timestamp) => {
   // Hack a CET date object :-|
@@ -76,7 +103,7 @@ const get = (url) =>
   );
 
 const handler = async (data) => {
-  const { text = '', chatId, date, fromId } = data;
+  const { text = '', chatId, date, fromId, messageId } = data;
   let response = {
     statusCode: 500,
     body: '',
@@ -86,7 +113,15 @@ const handler = async (data) => {
     SETTINGS_ALPHA_USERS.includes(fromId) &&
     Boolean(text.trim().match(TGIF_SETTINGS_CMD))
   ) {
-    await get(getMessageUrl(fromId, 'Hello World!', false));
+    const { error_code, description } = await get(
+      getMessageUrl(fromId, 'Hello World!', false)
+    );
+    if (
+      error_code === 403 &&
+      description.includes('bot was blocked by the user')
+    ) {
+      await get(getMessageUrl(chatId, BLOCKED_BY_USER_MSG, false, messageId));
+    }
     response.statusCode = 202;
     return response;
   }
