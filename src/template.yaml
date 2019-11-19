@@ -33,7 +33,7 @@ Resources:
     Properties:
       CodeUri: get-index/
       Handler: app.getIndexHandler
-      Runtime: nodejs10.x
+      Runtime: nodejs12.x
       Environment:
         Variables:
           STAGE: !Ref StageName
@@ -50,7 +50,7 @@ Resources:
     Properties:
       CodeUri: tgif/
       Handler: app.tgifHandler
-      Runtime: nodejs10.x
+      Runtime: nodejs12.x
       Environment:
         Variables:
           STAGE: !Ref StageName
