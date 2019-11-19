@@ -75,7 +75,7 @@ Resources:
   TgifTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: TgifTable
+      TableName: !Sub 'tgif-table-${StageName}'
       AttributeDefinitions:
         - AttributeName: ItemType
           AttributeType: S
