@@ -6,6 +6,7 @@ import {
   SEARCH_URL as SEARCH_URL_STRING,
   FALLBACK_GIF,
   TELEGRAM_BASE_URL,
+  BLOCKED_BY_USER_MSG,
 } from './tgif';
 
 const MONDAY = Math.round(new Date('2019-07-08 10:35:00').getTime() / 1000);
@@ -189,6 +190,43 @@ test('invalid settings call', async (t) => {
 test('wrong settings call', async (t) => {
   const fromId = FAKE_USER_ID;
   t.is(await tgif(event({ text: '/tgif setings ', fromId })), null);
+});
+
+test('bot is blocked by user', async (t) => {
+  const fromId = FAKE_USER_ID;
+  const messageId = 23;
+  const firstScope = nock(TELEGRAM_HOSTNAME)
+    .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
+    .query({
+      text: 'Hello World!',
+      chat_id: fromId,
+    })
+    .reply(403, {
+      error_code: 403,
+      description: 'Forbidden: bot was blocked by the user.',
+    });
+  const secondScope = nock(TELEGRAM_HOSTNAME)
+    .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
+    .query(
+      (query) =>
+        query.text.includes(
+          'Sorry, but you have to start a conversation with me first.'
+        ) &&
+        query.text.includes(
+          'Follow the link https://t.me/ek_tgif_dev_bot to do this.'
+        ) &&
+        query.text.includes('Cheers!') &&
+        query.chat_id === String(CHAT_ID) &&
+        query.reply_to_message_id === String(messageId)
+    )
+    .reply(200, {});
+  const result = await tgif(
+    event({ text: '/tgif  settings', fromId, messageId })
+  );
+
+  t.true(firstScope.isDone());
+  t.true(secondScope.isDone());
+  t.is(result.statusCode, 202);
 });
 
 test('successful settings call', async (t) => {
