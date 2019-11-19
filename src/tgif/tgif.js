@@ -1,7 +1,7 @@
 const { get: request } = require('https');
 const sample = require('lodash.sample');
 
-const { TELEGRAM_BOT_TOKEN, GIPHY_API_KEY } = process.env;
+const { TELEGRAM_BOT_TOKEN, GIPHY_API_KEY, EK_USER_ID } = process.env;
 
 const SEARCH_URL = `https://api.giphy.com/v1/gifs/search?q=tgif&api_key=${GIPHY_API_KEY}`;
 
@@ -12,17 +12,21 @@ const FALLBACK_GIF =
 
 const TELEGRAM_BASE_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/`;
 
-const TGIF_CMD = /^\/(tgr?if|tgirf)$/i;
+const RE_TGIF = '^\\/(tgr?if|tgirf)';
+const TGIF_CMD = new RegExp(`${RE_TGIF}$`, 'i');
+const TGIF_SETTINGS_CMD = new RegExp(`${RE_TGIF}\\s+settings$`, 'i');
+
+const SETTINGS_ALPHA_USERS = [Number(EK_USER_ID)];
 
 const getStickerUrl = (chatId, sticker) =>
   `${TELEGRAM_BASE_URL}sendSticker?sticker=${encodeURIComponent(
     sticker
   )}&chat_id=${chatId}&disable_notification=true`;
 
-const getMessageUrl = (chatId, text) =>
+const getMessageUrl = (chatId, text, silent = true) =>
   `${TELEGRAM_BASE_URL}sendMessage?text=${encodeURIComponent(
     text
-  )}&chat_id=${chatId}&disable_notification=true`;
+  )}&chat_id=${chatId}${silent ? '&disable_notification=true' : ''}`;
 
 const getDaysTillFriday = (timestamp) => {
   // Hack a CET date object :-|
@@ -72,17 +76,26 @@ const get = (url) =>
   );
 
 const handler = async (data) => {
-  const { text, chatId, date } = data;
-
-  if (!text || !TGIF_CMD.test(text.trim())) {
-    return null;
-  }
-
-  const remainingDays = getDaysTillFriday(date * 1000);
+  const { text = '', chatId, date, fromId } = data;
   let response = {
     statusCode: 500,
     body: '',
   };
+
+  if (
+    SETTINGS_ALPHA_USERS.includes(fromId) &&
+    Boolean(text.trim().match(TGIF_SETTINGS_CMD))
+  ) {
+    await get(getMessageUrl(fromId, 'Hello World!', false));
+    response.statusCode = 202;
+    return response;
+  }
+
+  if (!Boolean(text.trim().match(TGIF_CMD))) {
+    return null;
+  }
+
+  const remainingDays = getDaysTillFriday(date * 1000);
 
   try {
     if (remainingDays !== 0) {
