@@ -31,6 +31,7 @@ deploy: guard-EMAIL
 deploy: guard-HOSTED_ZONE_ID
 deploy: guard-CERTIFICATE_ARN
 deploy: guard-DOMAIN_NAME
+deploy: guard-EK_USER_ID
 deploy:
 	@ sam deploy \
 		--region $(AWS_REGION) \
@@ -45,7 +46,8 @@ deploy:
 			DomainName=$(DOMAIN_NAME) \
 			StageName=$(STAGE) \
 			GitSha=$(TRAVIS_COMMIT) \
-			AlarmRecipient=$(EMAIL)
+			AlarmRecipient=$(EMAIL) \
+			EkUserId=$(EK_USER_ID)
 
 delete: .venv/bin/aws
 	@ aws cloudformation delete-stack \
