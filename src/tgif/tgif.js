@@ -156,4 +156,5 @@ module.exports = {
   SEARCH_URL,
   TELEGRAM_BASE_URL,
   FALLBACK_GIF,
+  BLOCKED_BY_USER_MSG,
 };
