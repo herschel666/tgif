@@ -17,6 +17,7 @@ const SATURDAY = Math.round(new Date('2019-07-13 15:40:05').getTime() / 1000);
 const SUNDAY = Math.round(new Date('2019-07-14 16:41:06').getTime() / 1000);
 
 const CHAT_ID = 1337;
+const FAKE_USER_ID = 1234567;
 
 const TELEGRAM_URL = new URL(TELEGRAM_BASE_URL);
 const TELEGRAM_HOSTNAME = `${TELEGRAM_URL.protocol}//${TELEGRAM_URL.hostname}`;
@@ -148,6 +149,7 @@ test('handling fridays', async (t) => {
     .get(`${TELEGRAM_BASE_PATHNAME}sendSticker`)
     .query(
       (query) =>
+        query.sticker &&
         Boolean(query.sticker.match(/^gif-(one|two|three)$/)) &&
         query.chat_id === String(CHAT_ID)
     )
@@ -176,5 +178,30 @@ test('handling fridays with empty Giphy response', async (t) => {
 
   t.true(giphyScope.isDone());
   t.true(telegramScope.isDone());
+  t.is(result.statusCode, 202);
+});
+
+test('invalid settings call', async (t) => {
+  const fromId = 1234568;
+  t.is(await tgif(event({ text: '/tgrif settings ', fromId })), null);
+});
+
+test('wrong settings call', async (t) => {
+  const fromId = FAKE_USER_ID;
+  t.is(await tgif(event({ text: '/tgif setings ', fromId })), null);
+});
+
+test('successful settings call', async (t) => {
+  const fromId = FAKE_USER_ID;
+  const scope = nock(TELEGRAM_HOSTNAME)
+    .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
+    .query({
+      text: 'Hello World!',
+      chat_id: fromId,
+    })
+    .reply(200, {});
+  const result = await tgif(event({ text: '/tgif  settings', fromId }));
+
+  t.true(scope.isDone());
   t.is(result.statusCode, 202);
 });
