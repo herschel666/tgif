@@ -102,10 +102,10 @@ const get = (url) =>
     }).on('error', reject)
   );
 
-const handler = async (data) => {
+const handler = async (data, ddb) => {
   const { text = '', chatId, date, fromId, messageId } = data;
   let response = {
-    statusCode: 500,
+    statusCode: 202,
     body: '',
   };
 
@@ -113,8 +113,16 @@ const handler = async (data) => {
     SETTINGS_ALPHA_USERS.includes(fromId) &&
     Boolean(text.trim().match(TGIF_SETTINGS_CMD))
   ) {
+    let sessionId;
+    const currentSession = await ddb.getSettingsSession(fromId);
+    if (currentSession) {
+      sessionId = currentSession.SessionId;
+      await ddb.updateSettingsSession(fromId);
+    } else {
+      sessionId = await ddb.createSettingsSession(fromId);
+    }
     const { error_code, description } = await get(
-      getMessageUrl(fromId, 'Hello World!', false)
+      getMessageUrl(fromId, sessionId, false)
     );
     if (
       error_code === 403 &&
@@ -122,12 +130,11 @@ const handler = async (data) => {
     ) {
       await get(getMessageUrl(chatId, BLOCKED_BY_USER_MSG, false, messageId));
     }
-    response.statusCode = 202;
     return response;
   }
 
   if (!Boolean(text.trim().match(TGIF_CMD))) {
-    return null;
+    return response;
   }
 
   const remainingDays = getDaysTillFriday(date * 1000);
@@ -142,10 +149,9 @@ const handler = async (data) => {
         : FALLBACK_GIF;
       await get(getStickerUrl(chatId, sticker));
     }
-    response.statusCode = 202;
   } catch (err) {
+    response.statusCode = 500;
     console.log(err);
-    response.body = JSON.stringify(err);
   }
 
   return response;

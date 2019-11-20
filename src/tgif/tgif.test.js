@@ -39,6 +39,10 @@ const event = (message) => ({
   ...message,
   chatId: CHAT_ID,
 });
+const defaultResponse = {
+  body: '',
+  statusCode: 202,
+};
 
 test.before((t) => {
   t.context.__log = console.log;
@@ -51,13 +55,13 @@ test.after((t) => {
 });
 
 test('wrong command', async (t) => {
-  t.is(await tgif(event({ text: '/yolo ' })), null);
-  t.is(await tgif(event({ text: '/tgiff' })), null);
-  t.is(await tgif(event({ text: '/tgirff' })), null);
+  t.deepEqual(await tgif(event({ text: '/yolo ' })), defaultResponse);
+  t.deepEqual(await tgif(event({ text: '/tgiff' })), defaultResponse);
+  t.deepEqual(await tgif(event({ text: '/tgirff' })), defaultResponse);
 });
 
 test('missing text, e.g. channel name update', async (t) => {
-  t.is(await tgif(event({})), null);
+  t.deepEqual(await tgif(event({})), defaultResponse);
 });
 
 [
@@ -184,21 +188,28 @@ test('handling fridays with empty Giphy response', async (t) => {
 
 test('invalid settings call', async (t) => {
   const fromId = 1234568;
-  t.is(await tgif(event({ text: '/tgrif settings ', fromId })), null);
+  t.deepEqual(
+    await tgif(event({ text: '/tgrif settings ', fromId })),
+    defaultResponse
+  );
 });
 
 test('wrong settings call', async (t) => {
   const fromId = FAKE_USER_ID;
-  t.is(await tgif(event({ text: '/tgif setings ', fromId })), null);
+  t.deepEqual(
+    await tgif(event({ text: '/tgif setings ', fromId })),
+    defaultResponse
+  );
 });
 
 test('bot is blocked by user', async (t) => {
   const fromId = FAKE_USER_ID;
+  const sessionId = '1a2b3c4d5e6f7g8h9i0j';
   const messageId = 23;
   const firstScope = nock(TELEGRAM_HOSTNAME)
     .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
     .query({
-      text: 'Hello World!',
+      text: sessionId,
       chat_id: fromId,
     })
     .reply(403, {
@@ -220,8 +231,13 @@ test('bot is blocked by user', async (t) => {
         query.reply_to_message_id === String(messageId)
     )
     .reply(200, {});
+  const ddb = {
+    getSettingsSession: async () => ({ SessionId: sessionId }),
+    updateSettingsSession: async () => void 0,
+  };
   const result = await tgif(
-    event({ text: '/tgif  settings', fromId, messageId })
+    event({ text: '/tgif  settings', fromId, messageId }),
+    ddb
   );
 
   t.true(firstScope.isDone());
@@ -231,14 +247,19 @@ test('bot is blocked by user', async (t) => {
 
 test('successful settings call', async (t) => {
   const fromId = FAKE_USER_ID;
+  const sessionId = '1a2b3c4d5e6f7g8h9i0j';
   const scope = nock(TELEGRAM_HOSTNAME)
     .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
     .query({
-      text: 'Hello World!',
+      text: sessionId,
       chat_id: fromId,
     })
     .reply(200, {});
-  const result = await tgif(event({ text: '/tgif  settings', fromId }));
+  const ddb = {
+    getSettingsSession: async () => ({ SessionId: sessionId }),
+    updateSettingsSession: async () => void 0,
+  };
+  const result = await tgif(event({ text: '/tgif  settings', fromId }), ddb);
 
   t.true(scope.isDone());
   t.is(result.statusCode, 202);

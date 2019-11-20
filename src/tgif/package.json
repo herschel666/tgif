@@ -5,5 +5,8 @@
   "license": "MIT",
   "dependencies": {
     "lodash.sample": "^4.2.1"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.575.0"
   }
 }
