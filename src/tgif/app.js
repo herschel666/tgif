@@ -1,3 +1,4 @@
+const ddb = require('./ddb');
 const { tgif } = require('./tgif');
 
 exports.tgifHandler = async (event) => {
@@ -9,11 +10,14 @@ exports.tgifHandler = async (event) => {
     ...edited_message,
   };
 
-  return await tgif({
-    chatId: chat.id,
-    fromId: from.id,
-    messageId,
-    date,
-    text,
-  });
+  return await tgif(
+    {
+      chatId: chat.id,
+      fromId: from.id,
+      messageId,
+      date,
+      text,
+    },
+    ddb
+  );
 };

@@ -58,6 +58,7 @@ Resources:
           GIPHY_API_KEY: !Ref GiphyApiKey
           GIT_SHA: !Ref GitSha
           EK_USER_ID: !Ref EkUserId
+          TABLE_NAME: !Ref TgifTable
       Events:
         Tgif:
           Type: Api
@@ -65,6 +66,9 @@ Resources:
             RestApiId: !Ref TgifApi
             Path: /tgif
             Method: post
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TgifTable
 
   TgifApi:
     Type: AWS::Serverless::Api
@@ -79,12 +83,16 @@ Resources:
       AttributeDefinitions:
         - AttributeName: ItemType
           AttributeType: S
+        - AttributeName: UserId
+          AttributeType: N
       KeySchema:
         - AttributeName: ItemType
           KeyType: HASH
+        - AttributeName: UserId
+          KeyType: RANGE
       BillingMode: PAY_PER_REQUEST
       TimeToLiveSpecification:
-        AttributeName: TTL
+        AttributeName: ExpiryDate
         Enabled: true
 
   GetIndexLogGroup:
