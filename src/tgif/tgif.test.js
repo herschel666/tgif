@@ -1,4 +1,5 @@
-import test from 'ava';
+import ava from 'ava';
+import ninos from 'ninos';
 import querystring from 'querystring';
 import nock from 'nock';
 import {
@@ -6,8 +7,9 @@ import {
   SEARCH_URL as SEARCH_URL_STRING,
   FALLBACK_GIF,
   TELEGRAM_BASE_URL,
-  BLOCKED_BY_USER_MSG,
 } from './tgif';
+
+const test = ninos(ava);
 
 const MONDAY = Math.round(new Date('2019-07-08 10:35:00').getTime() / 1000);
 const TUESDAY = Math.round(new Date('2019-07-09 11:36:01').getTime() / 1000);
@@ -19,6 +21,7 @@ const SUNDAY = Math.round(new Date('2019-07-14 16:41:06').getTime() / 1000);
 
 const CHAT_ID = 1337;
 const FAKE_USER_ID = 1234567;
+const SESSION_ID = '1a2b3c4d5e6f7g8h9i0j';
 
 const TELEGRAM_URL = new URL(TELEGRAM_BASE_URL);
 const TELEGRAM_HOSTNAME = `${TELEGRAM_URL.protocol}//${TELEGRAM_URL.hostname}`;
@@ -204,12 +207,11 @@ test('wrong settings call', async (t) => {
 
 test('bot is blocked by user', async (t) => {
   const fromId = FAKE_USER_ID;
-  const sessionId = '1a2b3c4d5e6f7g8h9i0j';
   const messageId = 23;
   const firstScope = nock(TELEGRAM_HOSTNAME)
     .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
     .query({
-      text: sessionId,
+      text: SESSION_ID,
       chat_id: fromId,
     })
     .reply(403, {
@@ -232,7 +234,7 @@ test('bot is blocked by user', async (t) => {
     )
     .reply(200, {});
   const ddb = {
-    getSettingsSession: async () => ({ SessionId: sessionId }),
+    getSettingsSession: async () => ({ SessionId: SESSION_ID }),
     updateSettingsSession: async () => void 0,
   };
   const result = await tgif(
@@ -247,20 +249,65 @@ test('bot is blocked by user', async (t) => {
 
 test('successful settings call', async (t) => {
   const fromId = FAKE_USER_ID;
-  const sessionId = '1a2b3c4d5e6f7g8h9i0j';
   const scope = nock(TELEGRAM_HOSTNAME)
     .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
     .query({
-      text: sessionId,
+      text: SESSION_ID,
       chat_id: fromId,
     })
     .reply(200, {});
   const ddb = {
-    getSettingsSession: async () => ({ SessionId: sessionId }),
+    getSettingsSession: async () => ({ SessionId: SESSION_ID }),
     updateSettingsSession: async () => void 0,
   };
   const result = await tgif(event({ text: '/tgif  settings', fromId }), ddb);
 
   t.true(scope.isDone());
   t.is(result.statusCode, 202);
+});
+
+test('updating an existing session', async (t) => {
+  const fromId = FAKE_USER_ID;
+  const scope = nock(TELEGRAM_HOSTNAME)
+    .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
+    .query({
+      text: SESSION_ID,
+      chat_id: fromId,
+    })
+    .reply(200, {});
+  const ddb = {
+    getSettingsSession: t.context.stub(async () => ({ SessionId: SESSION_ID })),
+    updateSettingsSession: t.context.stub(),
+  };
+  const result = await tgif(event({ text: '/tgif  settings', fromId }), ddb);
+
+  t.true(scope.isDone());
+  t.is(result.statusCode, 202);
+  t.is(ddb.getSettingsSession.calls.length, 1);
+  t.is(ddb.getSettingsSession.calls[0].arguments[0], fromId);
+  t.is(ddb.updateSettingsSession.calls.length, 1);
+  t.is(ddb.updateSettingsSession.calls[0].arguments[0], fromId);
+});
+
+test('creating a new existing session', async (t) => {
+  const fromId = FAKE_USER_ID;
+  const scope = nock(TELEGRAM_HOSTNAME)
+    .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
+    .query({
+      text: SESSION_ID,
+      chat_id: fromId,
+    })
+    .reply(200, {});
+  const ddb = {
+    getSettingsSession: t.context.stub(async () => void 0),
+    createSettingsSession: t.context.stub(async () => SESSION_ID),
+  };
+  const result = await tgif(event({ text: '/tgif  settings', fromId }), ddb);
+
+  t.true(scope.isDone());
+  t.is(result.statusCode, 202);
+  t.is(ddb.getSettingsSession.calls.length, 1);
+  t.is(ddb.getSettingsSession.calls[0].arguments[0], fromId);
+  t.is(ddb.createSettingsSession.calls.length, 1);
+  t.is(ddb.createSettingsSession.calls[0].arguments[0], fromId);
 });
