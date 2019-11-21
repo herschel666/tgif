@@ -226,7 +226,7 @@ test('bot is blocked by user', async (t) => {
           'Sorry, but you have to start a conversation with me first.'
         ) &&
         query.text.includes(
-          'Follow the link https://t.me/ek_tgif_dev_bot to do this.'
+          'Follow the link https://t.me/ek_tgif_dev_bot to do this. Then try again.'
         ) &&
         query.text.includes('Cheers!') &&
         query.chat_id === String(CHAT_ID) &&
