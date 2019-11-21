@@ -59,6 +59,7 @@ Resources:
           GIT_SHA: !Ref GitSha
           EK_USER_ID: !Ref EkUserId
           TABLE_NAME: !Ref TgifTable
+          AWS_NODEJS_CONNECTION_REUSE_ENABLE: 1
       Events:
         Tgif:
           Type: Api
