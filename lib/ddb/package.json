@@ -1,0 +1,10 @@
+{
+  "name": "@herschel666/tgif-ddb",
+  "version": "0.1.0",
+  "main": "index.js",
+  "private": true,
+  "license": "Beerware",
+  "devDependencies": {
+    "aws-sdk": "2.576.0"
+  }
+}

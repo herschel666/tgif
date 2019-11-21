@@ -1,4 +1,4 @@
-const ddb = require('./ddb');
+const ddb = require('@herschel666/tgif-ddb');
 const { tgif } = require('./tgif');
 
 exports.tgifHandler = async (event) => {
