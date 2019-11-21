@@ -15,7 +15,8 @@ run: .venv/bin/sam src
 	@ sam local start-api \
 		--region $(AWS_REGION) \
 		--template src/template.yaml \
-		--debug
+		--debug \
+		${ARGS}
 
 package: .venv/bin/aws .venv/bin/sam clean
 	@ sam package \
