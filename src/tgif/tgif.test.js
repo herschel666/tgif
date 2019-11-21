@@ -215,9 +215,8 @@ test('bot is blocked by user', async (t) => {
       text: SESSION_MSG,
       chat_id: fromId,
     })
-    .reply(403, {
+    .reply(200, {
       error_code: 403,
-      description: 'Forbidden: bot was blocked by the user.',
     });
   const secondScope = nock(TELEGRAM_HOSTNAME)
     .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
