@@ -38,12 +38,46 @@ Resources:
         Variables:
           STAGE: !Ref StageName
       Events:
-        Tgif:
+        GetIndex:
           Type: Api
           Properties:
             RestApiId: !Ref TgifApi
             Path: /
             Method: get
+
+  GetSettingsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: get-settings/
+      Handler: app.getSettingsHandler
+      Runtime: nodejs12.x
+      Environment:
+        Variables:
+          STAGE: !Ref StageName
+      Events:
+        GetSettings:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TgifApi
+            Path: /user/{userId}/settings/{sessionId}
+            Method: get
+
+  PostSettingsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: post-settings/
+      Handler: app.postSettingsHandler
+      Runtime: nodejs12.x
+      Environment:
+        Variables:
+          STAGE: !Ref StageName
+      Events:
+        PostSettings:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TgifApi
+            Path: /user/{userId}/settings/{sessionId}
+            Method: post
 
   TgifFunction:
     Type: AWS::Serverless::Function
