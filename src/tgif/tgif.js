@@ -4,6 +4,7 @@ const sample = require('lodash.sample');
 const { STAGE, TELEGRAM_BOT_TOKEN, GIPHY_API_KEY, EK_USER_ID } = process.env;
 
 const BOT_NAME = STAGE === 'prod' ? 'ek_tgif_bot' : 'ek_tgif_dev_bot';
+const BOT_SUB_DOMAIN = STAGE === 'prod' ? 'tgif' : 'tgif-dev';
 
 const SEARCH_URL = `https://api.giphy.com/v1/gifs/search?q=tgif&api_key=${GIPHY_API_KEY}`;
 
@@ -91,6 +92,11 @@ const getMessage = (day) => {
   }
 };
 
+const getSettingsMessage = (userId, sessionId) =>
+  `
+Edit your settings here: https://${BOT_SUB_DOMAIN}.e5l.de/user/${userId}/settings/${sessionId}
+`.trim();
+
 const get = (url) =>
   new Promise((resolve, reject) =>
     request(url, (res) => {
@@ -122,7 +128,7 @@ const handler = async (data, ddb) => {
       sessionId = await ddb.createSettingsSession(fromId);
     }
     const { error_code, description } = await get(
-      getMessageUrl(fromId, sessionId, false)
+      getMessageUrl(fromId, getSettingsMessage(fromId, sessionId), false)
     );
     if (
       error_code === 403 &&
