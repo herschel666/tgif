@@ -25,6 +25,8 @@ package: .venv/bin/aws .venv/bin/sam clean
 		--s3-bucket $(BUCKET_NAME)
 
 deploy: .venv/bin/aws .venv/bin/sam package
+deploy: guard-AWS_ACCESS_KEY_ID
+deploy: guard-AWS_SECRET_ACCESS_KEY
 deploy: guard-TELEGRAM_BOT_TOKEN
 deploy: guard-GIPHY_API_KEY
 deploy: guard-EMAIL
