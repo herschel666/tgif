@@ -1,6 +1,6 @@
 # `@tgif`
 
-A telegram-bot that helps you identifying the holy friday. Just type in `/tgif` and submit. `@tgif` has your back.
+A telegram-bot that helps you identifying the holy friday. Just type in `/tgif` and submit. [`@ek_tgif_bot`](https://tgif.e5l.de/) has your back.
 
 ![Powered by Giphy](./giphy.png)
 
