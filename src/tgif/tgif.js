@@ -24,7 +24,7 @@ const SETTINGS_ALPHA_USERS = [Number(EK_USER_ID)];
 const BLOCKED_BY_USER_MSG = `
 Sorry, but you have to start a conversation with me first.
 
-Follow the link https://t.me/${BOT_NAME} to do this.
+Follow the link https://t.me/${BOT_NAME} to do this. Then try again.
 
 Cheers!
 `.trim();
