@@ -1,0 +1,10 @@
+{
+  "name": "@herschel666/tgif-get-settings",
+  "version": "0.1.0",
+  "private": true,
+  "main": "app.js",
+  "license": "MIT",
+  "dependencies": {
+    "@herschel666/tgif-settings": "0.1.0"
+  }
+}
