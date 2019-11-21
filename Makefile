@@ -65,7 +65,7 @@ deleteWebhook: guard-TELEGRAM_BOT_TOKEN
 	curl https://api.telegram.org/bot$(TELEGRAM_BOT_TOKEN)/deleteWebhook
 
 src: .venv/bin/sam
-	@ sam init --name src --runtime nodejs10.x --no-input
+	@ sam init --name src --runtime nodejs12.x --no-input
 
 clean:
 	rm -rf ./dist
