@@ -6,6 +6,6 @@
   "license": "MIT",
   "dependencies": {
     "@herschel666/tgif-ddb": "0.1.0",
-    "lodash.sample": "^4.2.1"
+    "lodash.sample": "4.2.1"
   }
 }
