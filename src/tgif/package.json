@@ -1,6 +1,7 @@
 {
-  "name": "tgif",
+  "name": "@herschel666/tgif",
   "version": "1.0.0",
+  "private": true,
   "main": "app.js",
   "license": "MIT",
   "dependencies": {
