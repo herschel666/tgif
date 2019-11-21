@@ -127,17 +127,17 @@ const handler = async (data, ddb) => {
     } else {
       sessionId = await ddb.createSettingsSession(fromId);
     }
-    const { error_code, description, ...messageResponse } = await get(
+    const { error_code, description } = await get(
       getMessageUrl(fromId, getSettingsMessage(fromId, sessionId), false)
     );
-    console.log('error_code', error_code);
-    console.log('description', description);
-    console.log(messageResponse);
     if (
       error_code === 403 &&
       description.includes('bot was blocked by the user')
     ) {
-      await get(getMessageUrl(chatId, BLOCKED_BY_USER_MSG, false, messageId));
+      const messageResponse = await get(
+        getMessageUrl(chatId, BLOCKED_BY_USER_MSG, false, messageId)
+      );
+      console.log(messageResponse);
     }
     return response;
   }
