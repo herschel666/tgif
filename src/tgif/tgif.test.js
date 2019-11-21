@@ -22,6 +22,7 @@ const SUNDAY = Math.round(new Date('2019-07-14 16:41:06').getTime() / 1000);
 const CHAT_ID = 1337;
 const FAKE_USER_ID = 1234567;
 const SESSION_ID = '1a2b3c4d5e6f7g8h9i0j';
+const SESSION_MSG = `Edit your settings here: https://tgif-dev.e5l.de/user/${FAKE_USER_ID}/settings/${SESSION_ID}`;
 
 const TELEGRAM_URL = new URL(TELEGRAM_BASE_URL);
 const TELEGRAM_HOSTNAME = `${TELEGRAM_URL.protocol}//${TELEGRAM_URL.hostname}`;
@@ -211,7 +212,7 @@ test('bot is blocked by user', async (t) => {
   const firstScope = nock(TELEGRAM_HOSTNAME)
     .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
     .query({
-      text: SESSION_ID,
+      text: SESSION_MSG,
       chat_id: fromId,
     })
     .reply(403, {
@@ -252,7 +253,7 @@ test('successful settings call', async (t) => {
   const scope = nock(TELEGRAM_HOSTNAME)
     .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
     .query({
-      text: SESSION_ID,
+      text: SESSION_MSG,
       chat_id: fromId,
     })
     .reply(200, {});
@@ -271,7 +272,7 @@ test('updating an existing session', async (t) => {
   const scope = nock(TELEGRAM_HOSTNAME)
     .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
     .query({
-      text: SESSION_ID,
+      text: SESSION_MSG,
       chat_id: fromId,
     })
     .reply(200, {});
@@ -294,7 +295,7 @@ test('creating a new existing session', async (t) => {
   const scope = nock(TELEGRAM_HOSTNAME)
     .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
     .query({
-      text: SESSION_ID,
+      text: SESSION_MSG,
       chat_id: fromId,
     })
     .reply(200, {});
