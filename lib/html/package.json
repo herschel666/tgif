@@ -1,0 +1,7 @@
+{
+  "name": "@herschel666/tgif-html",
+  "version": "0.1.0",
+  "main": "index.js",
+  "private": true,
+  "license": "Beerware"
+}
