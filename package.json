@@ -2,7 +2,7 @@
   "name": "tgif-root",
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "lint": "eslint --ignore-path .gitignore src",
+    "lint": "eslint --ignore-path .gitignore src lib",
     "ava": "ava",
     "test": "npm-run-all -p lint ava",
     "fmt": "prettier --config ./.prettierrc --ignore-path ./.prettierignore --write \"**/**.{js,md}\""
