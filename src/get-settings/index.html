@@ -70,6 +70,7 @@
               acc.concat(
                 value.utc
                   .filter((name) => !name.startsWith('Etc/'))
+                  .filter((name) => name.includes('/'))
                   .map((name) => ({ offset: value.offset, name }))
               ),
             []
@@ -93,11 +94,10 @@
       const init = (timezones) => {
         const frag = document.createDocumentFragment();
 
-        timezones.forEach(({ name: textContent, offset: value }) =>
+        timezones.forEach(({ name: textContent }) =>
           frag.appendChild(
             Object.assign(document.createElement('option'), {
               textContent,
-              value,
             })
           )
         );
