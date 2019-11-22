@@ -74,6 +74,8 @@ test('missing text, e.g. channel name update', async (t) => {
   ['sunday', SUNDAY],
 ].forEach(([day, date]) =>
   test(`Handling ${day}`, async (t) => {
+    const fromId = FAKE_USER_ID;
+    const getUser = t.context.stub();
     const scope = nock(TELEGRAM_HOSTNAME)
       .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
       .query({
@@ -82,14 +84,20 @@ test('missing text, e.g. channel name update', async (t) => {
         disable_notification: true,
       })
       .reply(200, {});
-    const result = await tgif(event({ text: '/tgif', date }));
+    const result = await tgif(event({ text: '/tgif', date, fromId }), {
+      getUser,
+    });
 
     t.true(scope.isDone());
     t.is(result.statusCode, 202);
+    t.is(getUser.calls.length, 1);
+    t.is(getUser.calls[0].arguments[0], fromId);
   })
 );
 
 test('handling mondays', async (t) => {
+  const fromId = FAKE_USER_ID;
+  const getUser = t.context.stub();
   const scope = nock(TELEGRAM_HOSTNAME)
     .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
     .query({
@@ -98,13 +106,19 @@ test('handling mondays', async (t) => {
       disable_notification: true,
     })
     .reply(200, {});
-  const result = await tgif(event({ text: '/tgif', date: MONDAY }));
+  const result = await tgif(event({ text: '/tgif', date: MONDAY, fromId }), {
+    getUser,
+  });
 
   t.true(scope.isDone());
   t.is(result.statusCode, 202);
+  t.is(getUser.calls.length, 1);
+  t.is(getUser.calls[0].arguments[0], fromId);
 });
 
 test('handling tuesdays', async (t) => {
+  const fromId = FAKE_USER_ID;
+  const getUser = t.context.stub();
   const scope = nock(TELEGRAM_HOSTNAME)
     .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
     .query({
@@ -113,13 +127,19 @@ test('handling tuesdays', async (t) => {
       disable_notification: true,
     })
     .reply(200, {});
-  const result = await tgif(event({ text: '/tgif', date: TUESDAY }));
+  const result = await tgif(event({ text: '/tgif', date: TUESDAY, fromId }), {
+    getUser,
+  });
 
   t.true(scope.isDone());
   t.is(result.statusCode, 202);
+  t.is(getUser.calls.length, 1);
+  t.is(getUser.calls[0].arguments[0], fromId);
 });
 
 test('handling wednesdays', async (t) => {
+  const fromId = FAKE_USER_ID;
+  const getUser = t.context.stub();
   const scope = nock(TELEGRAM_HOSTNAME)
     .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
     .query({
@@ -128,13 +148,19 @@ test('handling wednesdays', async (t) => {
       disable_notification: true,
     })
     .reply(200, {});
-  const result = await tgif(event({ text: '/tgif', date: WEDNESDAY }));
+  const result = await tgif(event({ text: '/tgif', date: WEDNESDAY, fromId }), {
+    getUser,
+  });
 
   t.true(scope.isDone());
   t.is(result.statusCode, 202);
+  t.is(getUser.calls.length, 1);
+  t.is(getUser.calls[0].arguments[0], fromId);
 });
 
 test('handling thursdays', async (t) => {
+  const fromId = FAKE_USER_ID;
+  const getUser = t.context.stub();
   const scope = nock(TELEGRAM_HOSTNAME)
     .get(`${TELEGRAM_BASE_PATHNAME}sendMessage`)
     .query({
@@ -143,13 +169,19 @@ test('handling thursdays', async (t) => {
       disable_notification: true,
     })
     .reply(200, {});
-  const result = await tgif(event({ text: '/tgif', date: THURSDAY }));
+  const result = await tgif(event({ text: '/tgif', date: THURSDAY, fromId }), {
+    getUser,
+  });
 
   t.true(scope.isDone());
   t.is(result.statusCode, 202);
+  t.is(getUser.calls.length, 1);
+  t.is(getUser.calls[0].arguments[0], fromId);
 });
 
 test('handling fridays', async (t) => {
+  const fromId = FAKE_USER_ID;
+  const getUser = t.context.stub();
   const giphyScope = nock(SEARCH_HOSTNAME)
     .get(SEARCH_PATHNAME)
     .query(SEARCH_QUERY)
@@ -163,14 +195,20 @@ test('handling fridays', async (t) => {
         query.chat_id === String(CHAT_ID)
     )
     .reply(200, {});
-  const result = await tgif(event({ text: '/tgif', date: FRIDAY }));
+  const result = await tgif(event({ text: '/tgif', date: FRIDAY, fromId }), {
+    getUser,
+  });
 
   t.true(giphyScope.isDone());
   t.true(telegramScope.isDone());
   t.is(result.statusCode, 202);
+  t.is(getUser.calls.length, 1);
+  t.is(getUser.calls[0].arguments[0], fromId);
 });
 
 test('handling fridays with empty Giphy response', async (t) => {
+  const fromId = FAKE_USER_ID;
+  const getUser = t.context.stub();
   const giphyScope = nock(SEARCH_HOSTNAME)
     .get(SEARCH_PATHNAME)
     .query(SEARCH_QUERY)
@@ -183,11 +221,15 @@ test('handling fridays with empty Giphy response', async (t) => {
       disable_notification: true,
     })
     .reply(200, {});
-  const result = await tgif(event({ text: '/tgif', date: FRIDAY }));
+  const result = await tgif(event({ text: '/tgif', date: FRIDAY, fromId }), {
+    getUser,
+  });
 
   t.true(giphyScope.isDone());
   t.true(telegramScope.isDone());
   t.is(result.statusCode, 202);
+  t.is(getUser.calls.length, 1);
+  t.is(getUser.calls[0].arguments[0], fromId);
 });
 
 test('invalid settings call', async (t) => {
