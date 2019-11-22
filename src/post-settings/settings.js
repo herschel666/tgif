@@ -1,8 +1,10 @@
+const { isValidSession } = require('@herschel666/tgif-settings');
+
 const handler = async ({ userId, sessionId, timezone, path }, ddb) => {
-  const sessionEntry = await ddb.getSettingsSession(userId);
+  const isSessionValid = await isValidSession({ userId, sessionId }, ddb);
   const headers = { 'content-type': 'text/plain; charset=utf8' };
 
-  if (!sessionEntry || sessionEntry.SessionId !== sessionId) {
+  if (!isSessionValid) {
     return {
       statusCode: 403,
       body: 'Session expired',
