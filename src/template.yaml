@@ -54,6 +54,8 @@ Resources:
       Environment:
         Variables:
           STAGE: !Ref StageName
+          TABLE_NAME: !Ref TgifTable
+          GIT_SHA: !Ref GitSha
       Events:
         GetSettings:
           Type: Api
@@ -61,6 +63,9 @@ Resources:
             RestApiId: !Ref TgifApi
             Path: /user/{userId}/settings/{sessionId}
             Method: get
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref TgifTable
 
   PostSettingsFunction:
     Type: AWS::Serverless::Function
