@@ -6,6 +6,9 @@ exports.getSettingsHandler = async (event) => {
   console.log('Version: %s', process.env.GIT_SHA);
   console.log(event);
   const { userId, sessionId } = getValidatedParams(event.pathParameters);
+  const { error, success } = event.queryStringParameters || {};
+  const erroneous = error === '';
+  const successful = success === '';
 
-  return await settings({ userId, sessionId }, ddb);
+  return await settings({ userId, sessionId, erroneous, successful }, ddb);
 };
