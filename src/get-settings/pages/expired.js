@@ -9,25 +9,7 @@ const bodyContent = html`
     >
       Sorry, your session expired.
     </h1>
-    <button
-      id="close-window"
-      class="bg-blue-500 hover:bg-blue-700 focus:bg-blue-700 text-white font-bold py-2 px-4"
-    >
-      Close
-    </button>
   </main>
 `;
 
-const scripts = html`
-  <script>
-    const button = document.getElementById('close-window');
-    const closeWindow = () => {
-      button.removeEventListener('click', closeWindow);
-      window.close();
-    };
-
-    button.addEventListener('click', closeWindow);
-  </script>
-`;
-
-module.exports = site({ title, bodyContent, scripts });
+module.exports = site({ title, bodyContent });
