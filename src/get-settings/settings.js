@@ -15,7 +15,12 @@ const handler = async ({ userId, sessionId, erroneous, successful }, ddb) => {
     };
   }
 
-  const body = successful ? successPage : formPage(erroneous);
+  let body = successPage;
+
+  if (!successful) {
+    const user = await ddb.getUser(userId);
+    body = formPage(erroneous, user ? user.Timezone : '');
+  }
 
   return {
     statusCode: 200,

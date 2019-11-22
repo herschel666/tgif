@@ -48,8 +48,9 @@ const getBodyContent = (erroneous) => {
   `;
 };
 
-const scripts = html`
+const getScripts = (timezone) => html`
   <script>
+    const userTimezone = '${timezone}';
     const select = document.getElementById('timezone');
 
     const sortData = (data) => {
@@ -85,6 +86,7 @@ const scripts = html`
         frag.appendChild(
           Object.assign(document.createElement('option'), {
             textContent,
+            selected: textContent === userTimezone,
           })
         )
       );
@@ -117,5 +119,9 @@ const scripts = html`
   </script>
 `;
 
-module.exports = (erroneous) =>
-  site({ title, bodyContent: getBodyContent(erroneous), scripts });
+module.exports = (erroneous, timezone) =>
+  site({
+    title,
+    bodyContent: getBodyContent(erroneous),
+    scripts: getScripts(timezone),
+  });
