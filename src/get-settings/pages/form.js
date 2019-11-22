@@ -2,40 +2,51 @@ const { site, html } = require('@herschel666/tgif-html');
 
 const title = 'Settings';
 
-const bodyContent = html`
-  <main class="container mx-auto p-4 my-2">
-    <h1
-      class="mb-8 pb-2 border-b-2 border-gray-200 text-xl text-gray-900 leading-tight"
-    >
-      tgif Settings
-    </h1>
-    <form action="" method="post" class="mb-4">
-      <fieldset>
-        <legend class="text-base leading-normal">
-          Edit your settings…
-        </legend>
-        <div class="p-4 my-4 bg-gray-100">
-          <label class="block text-base leading-normal" for="timezone_offset">
-            Your timezone
-          </label>
-          <select
-            name="timezone_offset"
-            id="timezone_offset"
-            class="mt-2 shadow opacity-50"
-            disabled
+const getBodyContent = (erroneous) => {
+  const errorMessage = erroneous
+    ? html`
+        <p class="mt-2 text-sm text-red-700">
+          Please select a timezone.
+        </p>
+      `
+    : '';
+
+  return html`
+    <main class="container mx-auto p-4 my-2">
+      <h1
+        class="mb-8 pb-2 border-b-2 border-gray-200 text-xl text-gray-900 leading-tight"
+      >
+        tgif Settings
+      </h1>
+      <form action="" method="post" class="mb-4">
+        <fieldset>
+          <legend class="text-base leading-normal">
+            Edit your settings…
+          </legend>
+          <div class="p-4 my-4 bg-gray-100">
+            <label class="block text-base leading-normal" for="timezone_offset">
+              Your timezone
+            </label>
+            <select
+              name="timezone_offset"
+              id="timezone_offset"
+              class="mt-2 shadow opacity-50"
+              disabled
+            >
+              <option value="">Loading timezones…</option>
+            </select>
+            ${errorMessage}
+          </div>
+          <button
+            class="bg-blue-500 hover:bg-blue-700 focus:bg-blue-700 text-white font-bold py-2 px-4"
           >
-            <option value="">Loading timezones…</option>
-          </select>
-        </div>
-        <button
-          class="bg-blue-500 hover:bg-blue-700 focus:bg-blue-700 text-white font-bold py-2 px-4"
-        >
-          Submit
-        </button>
-      </fieldset>
-    </form>
-  </main>
-`;
+            Submit
+          </button>
+        </fieldset>
+      </form>
+    </main>
+  `;
+};
 
 const scripts = html`
   <script>
@@ -106,4 +117,5 @@ const scripts = html`
   </script>
 `;
 
-module.exports = site({ title, bodyContent, scripts });
+module.exports = (erroneous) =>
+  site({ title, bodyContent: getBodyContent(erroneous), scripts });
