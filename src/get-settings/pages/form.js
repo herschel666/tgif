@@ -24,12 +24,12 @@ const getBodyContent = (erroneous) => {
             Edit your settings…
           </legend>
           <div class="p-4 my-4 bg-gray-100">
-            <label class="block text-base leading-normal" for="timezone_offset">
+            <label class="block text-base leading-normal" for="timezone">
               Your timezone
             </label>
             <select
-              name="timezone_offset"
-              id="timezone_offset"
+              name="timezone"
+              id="timezone"
               class="mt-2 shadow opacity-50"
               disabled
             >
@@ -50,7 +50,7 @@ const getBodyContent = (erroneous) => {
 
 const scripts = html`
   <script>
-    const select = document.getElementById('timezone_offset');
+    const select = document.getElementById('timezone');
 
     const sortData = (data) => {
       const list = data
