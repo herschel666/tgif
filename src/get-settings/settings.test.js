@@ -20,8 +20,8 @@ test('missing session', async (t) => {
   t.is(getSettingsSession.calls.length, 1);
   t.is(getSettingsSession.calls[0].arguments[0], FAKE_USER_ID);
   t.is(result.statusCode, 403);
-  t.true(result.headers['content-type'].includes('text/plain'));
-  t.is(result.body, 'Session expired');
+  t.true(result.headers['content-type'].includes('text/html'));
+  t.true(result.body.includes('Sorry, your session expired.'));
 });
 
 test('invalid session', async (t) => {
@@ -39,8 +39,8 @@ test('invalid session', async (t) => {
   t.is(getSettingsSession.calls.length, 1);
   t.is(getSettingsSession.calls[0].arguments[0], FAKE_USER_ID);
   t.is(result.statusCode, 403);
-  t.true(result.headers['content-type'].includes('text/plain'));
-  t.is(result.body, 'Session expired');
+  t.true(result.headers['content-type'].includes('text/html'));
+  t.true(result.body.includes('Sorry, your session expired.'));
 });
 
 test('valid session', async (t) => {
