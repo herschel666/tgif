@@ -26,6 +26,9 @@ Parameters:
     Type: String
   EkUserId:
     Type: String
+  RetentionInDays:
+    Type: Number
+    Default: 7
 
 Resources:
   GetIndexFunction:
@@ -141,7 +144,23 @@ Resources:
       - GetIndexFunction
     Properties:
       LogGroupName: !Sub '/aws/lambda/${GetIndexFunction}'
-      RetentionInDays: 7
+      RetentionInDays: !Ref RetentionInDays
+
+  GetSettingsLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - TgifFunction
+    Properties:
+      LogGroupName: !Sub '/aws/lambda/${GetSettingsFunction}'
+      RetentionInDays: !Ref RetentionInDays
+
+  PostSettingsLogGroup:
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - TgifFunction
+    Properties:
+      LogGroupName: !Sub '/aws/lambda/${PostSettingsFunction}'
+      RetentionInDays: !Ref RetentionInDays
 
   TgifLogGroup:
     Type: AWS::Logs::LogGroup
@@ -149,7 +168,7 @@ Resources:
       - TgifFunction
     Properties:
       LogGroupName: !Sub '/aws/lambda/${TgifFunction}'
-      RetentionInDays: 7
+      RetentionInDays: !Ref RetentionInDays
 
   ErrorTopic:
     Type: AWS::SNS::Topic
