@@ -29,6 +29,8 @@ Follow the link https://t.me/${BOT_NAME} to do this. Then try again.
 Cheers!
 `.trim();
 
+const DEFAULT_TIMEZONE = 'Europe/Berlin';
+
 const getStickerUrl = (chatId, sticker) => {
   const qs = new URLSearchParams({
     chat_id: chatId,
@@ -56,10 +58,10 @@ const getMessageUrl = (chatId, text, silent = true, messageId) => {
   return `${TELEGRAM_BASE_URL}sendMessage?${qs.toString()}`;
 };
 
-const getDaysTillFriday = (timestamp) => {
+const getDaysTillFriday = (timestamp, timezone) => {
   // Hack a CET date object :-|
   const options = {
-    timeZone: 'Europe/Berlin',
+    timeZone: timezone,
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -140,7 +142,9 @@ const handler = async (data, ddb) => {
     return response;
   }
 
-  const remainingDays = getDaysTillFriday(date * 1000);
+  const user = await ddb.getUser(fromId);
+  const timezone = user ? user.Timezone : DEFAULT_TIMEZONE;
+  const remainingDays = getDaysTillFriday(date * 1000, timezone);
 
   try {
     if (remainingDays !== 0) {
