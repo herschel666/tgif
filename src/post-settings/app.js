@@ -1,15 +1,14 @@
 const { parse } = require('querystring');
+const ddb = require('@herschel666/tgif-ddb');
 const { getValidatedParams } = require('@herschel666/tgif-settings');
+const { settings } = require('./settings');
 
 exports.postSettingsHandler = async (event) => {
+  console.log('Version: %s', process.env.GIT_SHA);
   console.log(event);
-  const { userId, sessionId } = getValidatedParams(event.pathParameters);
-  const { timezone_offset: timezoneOffset } = parse(event.body);
+  const { path, pathParameters, body } = event;
+  const { userId, sessionId } = getValidatedParams(pathParameters);
+  const { timezone } = parse(body);
 
-  console.log(userId, sessionId, timezoneOffset);
-
-  return {
-    statusCode: 204,
-    body: '',
-  };
+  return await settings({ userId, sessionId, timezone, path }, ddb);
 };

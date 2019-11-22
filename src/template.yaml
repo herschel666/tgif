@@ -79,6 +79,8 @@ Resources:
       Environment:
         Variables:
           STAGE: !Ref StageName
+          TABLE_NAME: !Ref TgifTable
+          GIT_SHA: !Ref GitSha
       Events:
         PostSettings:
           Type: Api
@@ -86,6 +88,9 @@ Resources:
             RestApiId: !Ref TgifApi
             Path: /user/{userId}/settings/{sessionId}
             Method: post
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TgifTable
 
   TgifFunction:
     Type: AWS::Serverless::Function
