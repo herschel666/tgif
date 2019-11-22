@@ -60,4 +60,54 @@ test('valid session', async (t) => {
   t.is(result.statusCode, 200);
   t.true(result.headers['content-type'].includes('text/html'));
   t.true(result.body.includes('Edit your settings…'));
+  t.false(
+    result.body.includes('Successfully saved your settings.'),
+    'No success message on initial page.'
+  );
+  t.false(
+    result.body.includes('Please select a timezone.'),
+    'No error message on initial page.'
+  );
+});
+
+test('invalid form submit', async (t) => {
+  const getSettingsSession = t.context.stub(async () => ({
+    SessionId: SESSION_ID,
+  }));
+  const result = await settings(
+    {
+      userId: FAKE_USER_ID,
+      sessionId: SESSION_ID,
+      erroneous: true,
+    },
+    { getSettingsSession }
+  );
+
+  t.is(getSettingsSession.calls.length, 1);
+  t.is(getSettingsSession.calls[0].arguments[0], FAKE_USER_ID);
+  t.is(result.statusCode, 200);
+  t.true(result.headers['content-type'].includes('text/html'));
+  t.true(result.body.includes('Edit your settings…'));
+  t.true(result.body.includes('Please select a timezone.'));
+});
+
+test('valid form submit', async (t) => {
+  const getSettingsSession = t.context.stub(async () => ({
+    SessionId: SESSION_ID,
+  }));
+  const result = await settings(
+    {
+      userId: FAKE_USER_ID,
+      sessionId: SESSION_ID,
+      successful: true,
+    },
+    { getSettingsSession }
+  );
+
+  t.is(getSettingsSession.calls.length, 1);
+  t.is(getSettingsSession.calls[0].arguments[0], FAKE_USER_ID);
+  t.is(result.statusCode, 200);
+  t.true(result.headers['content-type'].includes('text/html'));
+  t.false(result.body.includes('Edit your settings…', 'Form is not present.'));
+  t.true(result.body.includes('Successfully saved your settings.'));
 });
