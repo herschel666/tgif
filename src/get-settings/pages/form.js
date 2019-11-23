@@ -61,32 +61,35 @@ const getScripts = (timezone) => html`
               value.utc
                 .filter((name) => !name.startsWith('Etc/'))
                 .filter((name) => name.includes('/'))
-                .map((name) => ({ offset: value.offset, name }))
             ),
           []
         )
         .reduce((acc, item, i, arr) => {
-          const index = arr.findIndex(({ name }) => item.name === name);
+          const index = arr.findIndex((name) => item === name);
           if (index < i) {
             return acc;
           }
           return acc.concat(item);
         }, [])
-        .sort((a, b) => a.name.localeCompare(b.name));
-      const europe = list.filter(({ name }) => name.startsWith('Europe/'));
-      const otherWorld = list.filter(({ name }) => !name.startsWith('Europe/'));
+        .sort((a, b) => a.localeCompare(b));
+      const europe = list.filter((name) => name.startsWith('Europe/'));
+      const otherWorld = list.filter((name) => !name.startsWith('Europe/'));
 
-      return europe.concat(otherWorld);
+      return europe.concat(otherWorld).map((value) => ({
+        textContent: value.replace(/_/g, ' '),
+        value,
+      }));
     };
 
     const init = (timezones) => {
       const frag = document.createDocumentFragment();
 
-      timezones.forEach(({ name: textContent }) =>
+      timezones.forEach(({ textContent, value }) =>
         frag.appendChild(
           Object.assign(document.createElement('option'), {
+            selected: value === userTimezone,
             textContent,
-            selected: textContent === userTimezone,
+            value,
           })
         )
       );
