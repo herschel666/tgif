@@ -1,4 +1,7 @@
-const { isValidSession } = require('@herschel666/tgif-settings');
+const {
+  isValidSession,
+  isValidTimezone,
+} = require('@herschel666/tgif-settings');
 
 const handler = async ({ userId, sessionId, timezone, path }, ddb) => {
   const isSessionValid = await isValidSession({ userId, sessionId }, ddb);
@@ -20,7 +23,7 @@ const handler = async ({ userId, sessionId, timezone, path }, ddb) => {
   };
   let status = 'success';
 
-  if (!timezone) {
+  if (!isValidTimezone(timezone)) {
     status = 'error';
   } else {
     await ddb.putUser(userId, timezone);
