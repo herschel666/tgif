@@ -38,7 +38,6 @@
       "GIPHY_API_KEY": "giphy-api-key",
       "TELEGRAM_BOT_TOKEN": "-telegram-bot-token",
       "GIT_SHA": "test",
-      "EK_USER_ID": "1234567",
       "STAGE": "dev"
     }
   }

@@ -232,20 +232,8 @@ test('handling fridays with empty Giphy response', async (t) => {
   t.is(getUser.calls[0].arguments[0], fromId);
 });
 
-test('invalid settings call', async (t) => {
-  const fromId = 1234568;
-  t.deepEqual(
-    await tgif(event({ text: '/tgrif settings ', fromId })),
-    defaultResponse
-  );
-});
-
 test('wrong settings call', async (t) => {
-  const fromId = FAKE_USER_ID;
-  t.deepEqual(
-    await tgif(event({ text: '/tgif setings ', fromId })),
-    defaultResponse
-  );
+  t.deepEqual(await tgif(event({ text: '/tgif setings ' })), defaultResponse);
 });
 
 test('bot is blocked by user', async (t) => {
