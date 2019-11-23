@@ -1,7 +1,7 @@
 const { get: request } = require('https');
 const sample = require('lodash.sample');
 
-const { STAGE, TELEGRAM_BOT_TOKEN, GIPHY_API_KEY, EK_USER_ID } = process.env;
+const { STAGE, TELEGRAM_BOT_TOKEN, GIPHY_API_KEY } = process.env;
 
 const BOT_NAME = STAGE === 'prod' ? 'ek_tgif_bot' : 'ek_tgif_dev_bot';
 const BOT_SUB_DOMAIN = STAGE === 'prod' ? 'tgif' : 'tgif-dev';
@@ -18,8 +18,6 @@ const TELEGRAM_BASE_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/`;
 const RE_TGIF = '^\\/(tgr?if|tgirf)';
 const TGIF_CMD = new RegExp(`${RE_TGIF}$`, 'i');
 const TGIF_SETTINGS_CMD = new RegExp(`${RE_TGIF}\\s+settings$`, 'i');
-
-const SETTINGS_ALPHA_USERS = [Number(EK_USER_ID)];
 
 const BLOCKED_BY_USER_MSG = `
 Sorry, but you have to start a conversation with me first.
@@ -117,10 +115,7 @@ const handler = async (data, ddb) => {
     body: '',
   };
 
-  if (
-    SETTINGS_ALPHA_USERS.includes(fromId) &&
-    Boolean(text.trim().match(TGIF_SETTINGS_CMD))
-  ) {
+  if (Boolean(text.trim().match(TGIF_SETTINGS_CMD))) {
     let sessionId;
     const currentSession = await ddb.getSettingsSession(fromId);
     if (currentSession) {
