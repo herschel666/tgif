@@ -13,7 +13,7 @@ exports.tgifHandler = async (event) => {
   return await tgif(
     {
       chatId: chat.id,
-      fromId: from.id,
+      fromId: String(from.id),
       messageId,
       date,
       text,
