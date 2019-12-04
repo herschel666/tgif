@@ -57,7 +57,7 @@ Resources:
       Environment:
         Variables:
           STAGE: !Ref StageName
-          TABLE_NAME: !Ref TgifTable
+          TABLE_NAME: !Ref TgifDDB
           GIT_SHA: !Ref GitSha
       Events:
         GetSettings:
@@ -68,7 +68,7 @@ Resources:
             Method: get
       Policies:
         - DynamoDBReadPolicy:
-            TableName: !Ref TgifTable
+            TableName: !Ref TgifDDB
 
   PostSettingsFunction:
     Type: AWS::Serverless::Function
@@ -79,7 +79,7 @@ Resources:
       Environment:
         Variables:
           STAGE: !Ref StageName
-          TABLE_NAME: !Ref TgifTable
+          TABLE_NAME: !Ref TgifDDB
           GIT_SHA: !Ref GitSha
       Events:
         PostSettings:
@@ -90,7 +90,7 @@ Resources:
             Method: post
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: !Ref TgifTable
+            TableName: !Ref TgifDDB
 
   TgifFunction:
     Type: AWS::Serverless::Function
@@ -104,8 +104,8 @@ Resources:
           TELEGRAM_BOT_TOKEN: !Ref TelegramBotToken
           GIPHY_API_KEY: !Ref GiphyApiKey
           GIT_SHA: !Ref GitSha
-          TABLE_NAME: !Ref TgifTable
           EK_USER_ID: !Ref EkUserId
+          TABLE_NAME: !Ref TgifDDB
           AWS_NODEJS_CONNECTION_REUSE_ENABLE: 1
       Events:
         Tgif:
@@ -116,7 +116,7 @@ Resources:
             Method: post
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: !Ref TgifTable
+            TableName: !Ref TgifDDB
 
   TgifApi:
     Type: AWS::Serverless::Api
@@ -137,6 +137,25 @@ Resources:
         - AttributeName: ItemType
           KeyType: HASH
         - AttributeName: UserId
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+      TimeToLiveSpecification:
+        AttributeName: ExpiryDate
+        Enabled: true
+
+  TgifDDB:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub 'tgif-ddb-${StageName}'
+      AttributeDefinitions:
+        - AttributeName: ItemType
+          AttributeType: S
+        - AttributeName: ItemId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: ItemType
+          KeyType: HASH
+        - AttributeName: ItemId
           KeyType: RANGE
       BillingMode: PAY_PER_REQUEST
       TimeToLiveSpecification:
