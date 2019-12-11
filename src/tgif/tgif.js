@@ -1,7 +1,7 @@
 const { get: request } = require('https');
 const sample = require('lodash.sample');
 
-const { STAGE, TELEGRAM_BOT_TOKEN, GIPHY_API_KEY } = process.env;
+const { STAGE, TELEGRAM_BOT_TOKEN, GIPHY_API_KEY, EK_USER_ID } = process.env;
 
 const BOT_NAME = STAGE === 'prod' ? 'ek_tgif_bot' : 'ek_tgif_dev_bot';
 const BOT_SUB_DOMAIN = STAGE === 'prod' ? 'tgif' : 'tgif-dev';
@@ -149,7 +149,7 @@ const handler = async (data, ddb) => {
   const remainingDays = getDaysTillFriday(date * 1000, timezone);
 
   try {
-    if (remainingDays !== 0) {
+    if (remainingDays !== 0 && fromId !== EK_USER_ID) {
       await get(getMessageUrl(chatId, getMessage(remainingDays)));
     } else {
       searchUrl.searchParams.append('offset', getRandomOffset());
