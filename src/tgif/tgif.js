@@ -6,8 +6,6 @@ const { STAGE, TELEGRAM_BOT_TOKEN, GIPHY_API_KEY } = process.env;
 const BOT_NAME = STAGE === 'prod' ? 'ek_tgif_bot' : 'ek_tgif_dev_bot';
 const BOT_SUB_DOMAIN = STAGE === 'prod' ? 'tgif' : 'tgif-dev';
 
-const SEARCH_URL = `https://api.giphy.com/v1/gifs/search?q=tgif&api_key=${GIPHY_API_KEY}`;
-
 const SATURDAY = 6;
 
 const FALLBACK_GIF =
@@ -28,6 +26,15 @@ Cheers!
 `.trim();
 
 const DEFAULT_TIMEZONE = 'Europe/Berlin';
+
+const MAX_SEARCH_OFFSET = 10;
+
+const searchUrl = new URL(
+  `https://api.giphy.com/v1/gifs/search?q=tgif&api_key=${GIPHY_API_KEY}`
+);
+
+const getRandomOffset = () =>
+  Math.floor(Math.random() * (MAX_SEARCH_OFFSET + 1));
 
 const getStickerUrl = (chatId, sticker) => {
   const qs = new URLSearchParams({
@@ -145,7 +152,8 @@ const handler = async (data, ddb) => {
     if (remainingDays !== 0) {
       await get(getMessageUrl(chatId, getMessage(remainingDays)));
     } else {
-      const result = await get(SEARCH_URL);
+      searchUrl.searchParams.append('offset', getRandomOffset());
+      const result = await get(searchUrl);
       const sticker = result.data.length
         ? sample(result.data).images.downsized_medium.url
         : FALLBACK_GIF;
@@ -161,7 +169,8 @@ const handler = async (data, ddb) => {
 
 module.exports = {
   tgif: handler,
-  SEARCH_URL,
+  searchUrl,
   TELEGRAM_BASE_URL,
   FALLBACK_GIF,
+  MAX_SEARCH_OFFSET,
 };
