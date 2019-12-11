@@ -148,6 +148,9 @@ const handler = async (data, ddb) => {
   const timezone = user ? user.Timezone : DEFAULT_TIMEZONE;
   const remainingDays = getDaysTillFriday(date * 1000, timezone);
 
+  console.log('fromId', fromId, typeof fromId);
+  console.log('EK_USER_ID', EK_USER_ID, typeof EK_USER_ID);
+
   try {
     if (remainingDays !== 0 && fromId !== Number(EK_USER_ID)) {
       await get(getMessageUrl(chatId, getMessage(remainingDays)));
