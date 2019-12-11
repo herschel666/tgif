@@ -24,6 +24,8 @@ Parameters:
     Default: dev
   AlarmRecipient:
     Type: String
+  EkUserId:
+    Type: String
   RetentionInDays:
     Type: Number
     Default: 7
@@ -103,6 +105,7 @@ Resources:
           GIPHY_API_KEY: !Ref GiphyApiKey
           GIT_SHA: !Ref GitSha
           TABLE_NAME: !Ref TgifTable
+          EK_USER_ID: !Ref EkUserId
           AWS_NODEJS_CONNECTION_REUSE_ENABLE: 1
       Events:
         Tgif:
