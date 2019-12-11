@@ -149,7 +149,7 @@ const handler = async (data, ddb) => {
   const remainingDays = getDaysTillFriday(date * 1000, timezone);
 
   try {
-    if (remainingDays !== 0 && fromId !== Number(EK_USER_ID)) {
+    if (remainingDays !== 0) {
       await get(getMessageUrl(chatId, getMessage(remainingDays)));
     } else {
       searchUrl.searchParams.append('offset', getRandomOffset());
