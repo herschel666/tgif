@@ -86,6 +86,6 @@ guard-%:
 
 .venv/bin/sam: .venv/bin/activate
 	source ./.venv/bin/activate
-	pip install aws-sam-cli --upgrade
+	pip install aws-sam-cli -r requirements.txt --upgrade
 
 .PHONY: mb run package deploy upload clean setWebhook deleteWebhook guard-%
