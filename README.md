@@ -10,6 +10,8 @@
 
 ![Powered by Giphy](./giphy.png)
 
+[![Repo build status](https://github.com/herschel666/tgif/workflows/Build%20and%20Test%20and%20Deploy/badge.svg)](https://github.com/herschel666/tgif/actions)
+
 ## License
 
 "THE BEER-WARE LICENSE" (Revision 42): <phk@FreeBSD.ORG> wrote this file.
