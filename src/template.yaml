@@ -124,25 +124,6 @@ Resources:
       StageName: !Ref StageName
       EndpointConfiguration: EDGE
 
-  TgifTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: !Sub 'tgif-table-${StageName}'
-      AttributeDefinitions:
-        - AttributeName: ItemType
-          AttributeType: S
-        - AttributeName: UserId
-          AttributeType: N
-      KeySchema:
-        - AttributeName: ItemType
-          KeyType: HASH
-        - AttributeName: UserId
-          KeyType: RANGE
-      BillingMode: PAY_PER_REQUEST
-      TimeToLiveSpecification:
-        AttributeName: ExpiryDate
-        Enabled: true
-
   TgifDDB:
     Type: AWS::DynamoDB::Table
     Properties:
