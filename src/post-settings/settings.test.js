@@ -1,7 +1,7 @@
-import ninos from 'ninos';
-import ava from 'ava';
+const ninos = require('ninos');
+const ava = require('ava');
 
-import { settings } from './settings';
+const { settings } = require('./settings');
 
 const FAKE_USER_ID = 1234567;
 const SESSION_ID = '1a2b3c4d5e6f7g8h9i0j';

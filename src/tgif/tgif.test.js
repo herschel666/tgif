@@ -1,13 +1,13 @@
-import ava from 'ava';
-import ninos from 'ninos';
-import nock from 'nock';
-import {
+const ava = require('ava');
+const ninos = require('ninos');
+const nock = require('nock');
+const {
   tgif,
   searchUrl,
   FALLBACK_GIF,
   TELEGRAM_BASE_URL,
   MAX_SEARCH_OFFSET,
-} from './tgif';
+} = require('./tgif');
 
 const test = ninos(ava);
 
