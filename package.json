@@ -22,7 +22,7 @@
     "aws-sdk": "2.643.0",
     "babel-eslint": "10.1.0",
     "eslint": "6.8.0",
-    "eslint-config-prettier": "6.10.0",
+    "eslint-config-prettier": "6.10.1",
     "eslint-plugin-prettier": "3.1.2",
     "lerna": "3.20.2",
     "ninos": "3.0.0",
