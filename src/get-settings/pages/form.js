@@ -112,11 +112,7 @@ const getScripts = (timezone) => html`
     };
 
     fetch('https://unpkg.com/timezones.json@1.5.0/timezones.json').then(
-      (response) =>
-        response
-          .json()
-          .then(sortData)
-          .then(init),
+      (response) => response.json().then(sortData).then(init),
       handleError
     );
   </script>
