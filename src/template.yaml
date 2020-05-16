@@ -17,7 +17,7 @@ Parameters:
     Type: String
   TelegramBotToken:
     Type: String
-  GiphyApiKey:
+  TenorApiKey:
     Type: String
   GitSha:
     Type: String
@@ -102,7 +102,7 @@ Resources:
         Variables:
           STAGE: !Ref StageName
           TELEGRAM_BOT_TOKEN: !Ref TelegramBotToken
-          GIPHY_API_KEY: !Ref GiphyApiKey
+          TENOR_API_KEY: !Ref TenorApiKey
           GIT_SHA: !Ref GitSha
           EK_USER_ID: !Ref EkUserId
           TABLE_NAME: !Ref TgifDDB

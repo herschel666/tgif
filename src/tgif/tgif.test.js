@@ -29,9 +29,9 @@ const TELEGRAM_HOSTNAME = `${TELEGRAM_URL.protocol}//${TELEGRAM_URL.hostname}`;
 const TELEGRAM_BASE_PATHNAME = TELEGRAM_URL.pathname;
 
 const GIFS = [
-  { images: { downsized_medium: { url: 'gif-one' } } },
-  { images: { downsized_medium: { url: 'gif-two' } } },
-  { images: { downsized_medium: { url: 'gif-three' } } },
+  { media: [{ tinygif: { url: 'gif-one' } }] },
+  { media: [{ tinygif: { url: 'gif-two' } }] },
+  { media: [{ tinygif: { url: 'gif-three' } }] },
 ];
 
 const SEARCH_HOSTNAME = `${searchUrl.protocol}//${searchUrl.hostname}`;
@@ -46,12 +46,12 @@ const defaultResponse = {
   statusCode: 202,
 };
 
-const isSearchQuery = ({ q, api_key: apiKey, offset: offsetString }) => {
-  const offset = Number(offsetString);
+const isSearchQuery = ({ q, key, pos }) => {
+  const offset = Number(pos);
 
   return (
     q === 'tgif' &&
-    apiKey === 'giphy-api-key' &&
+    key === 'tenor-api-key' &&
     offset >= 0 &&
     offset <= MAX_SEARCH_OFFSET
   );
@@ -191,10 +191,10 @@ test('handling thursdays', async (t) => {
 test('handling fridays', async (t) => {
   const fromId = FAKE_USER_ID;
   const getUser = t.context.stub();
-  const giphyScope = nock(SEARCH_HOSTNAME)
+  const tenorScope = nock(SEARCH_HOSTNAME)
     .get(SEARCH_PATHNAME)
     .query(isSearchQuery)
-    .reply(200, { data: GIFS });
+    .reply(200, { results: GIFS });
   const telegramScope = nock(TELEGRAM_HOSTNAME)
     .get(`${TELEGRAM_BASE_PATHNAME}sendSticker`)
     .query(
@@ -208,7 +208,7 @@ test('handling fridays', async (t) => {
     getUser,
   });
 
-  t.true(giphyScope.isDone());
+  t.true(tenorScope.isDone());
   t.true(telegramScope.isDone());
   t.is(result.statusCode, 202);
   t.is(getUser.calls.length, 1);
@@ -217,13 +217,13 @@ test('handling fridays', async (t) => {
 
 test.todo('Handle equal requests in parallel test runs.');
 
-test.skip('handling fridays with empty Giphy response', async (t) => {
+test.skip('handling fridays with empty Tenor response', async (t) => {
   const fromId = FAKE_USER_ID;
   const getUser = t.context.stub();
-  const giphyScope = nock(SEARCH_HOSTNAME)
+  const tenorScope = nock(SEARCH_HOSTNAME)
     .get(SEARCH_PATHNAME)
     .query(isSearchQuery)
-    .reply(200, { data: [] });
+    .reply(200, { results: [] });
   const telegramScope = nock(TELEGRAM_HOSTNAME)
     .get(`${TELEGRAM_BASE_PATHNAME}sendSticker`)
     .query({
@@ -236,7 +236,7 @@ test.skip('handling fridays with empty Giphy response', async (t) => {
     getUser,
   });
 
-  t.true(giphyScope.isDone());
+  t.true(tenorScope.isDone());
   t.true(telegramScope.isDone());
   t.is(result.statusCode, 202);
   t.is(getUser.calls.length, 1);
