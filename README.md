@@ -8,7 +8,7 @@
 
 > A telegram-bot that helps you identifying the holy friday. Just type in `/tgif` and submit. [`@ek_tgif_bot`](https://tgif.e5l.de/) has your back.
 
-![Powered by Giphy](./giphy.png)
+![Powered by Tenor](./tenor.png)
 
 [![Repo build status](https://github.com/herschel666/tgif/workflows/Build%20and%20Test%20and%20Deploy/badge.svg)](https://github.com/herschel666/tgif/actions)
 

@@ -35,7 +35,7 @@
       "src/*/*.test.js"
     ],
     "environmentVariables": {
-      "GIPHY_API_KEY": "giphy-api-key",
+      "TENOR_API_KEY": "tenor-api-key",
       "TELEGRAM_BOT_TOKEN": "-telegram-bot-token",
       "GIT_SHA": "test",
       "STAGE": "dev",

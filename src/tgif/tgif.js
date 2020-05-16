@@ -1,7 +1,7 @@
 const { get: request } = require('https');
 const sample = require('lodash.sample');
 
-const { STAGE, TELEGRAM_BOT_TOKEN, GIPHY_API_KEY, EK_USER_ID } = process.env;
+const { STAGE, TELEGRAM_BOT_TOKEN, TENOR_API_KEY } = process.env;
 
 const BOT_NAME = STAGE === 'prod' ? 'ek_tgif_bot' : 'ek_tgif_dev_bot';
 const BOT_SUB_DOMAIN = STAGE === 'prod' ? 'tgif' : 'tgif-dev';
@@ -9,7 +9,7 @@ const BOT_SUB_DOMAIN = STAGE === 'prod' ? 'tgif' : 'tgif-dev';
 const SATURDAY = 6;
 
 const FALLBACK_GIF =
-  'https://media.giphy.com/media/xT0BKFyZt9MMx9xkpW/giphy.gif';
+  'https://media1.tenor.com/images/fdc702b58243414ec6f6bb193db76f04/tenor.gif';
 
 const TELEGRAM_BASE_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/`;
 
@@ -30,7 +30,7 @@ const DEFAULT_TIMEZONE = 'Europe/Berlin';
 const MAX_SEARCH_OFFSET = 10;
 
 const searchUrl = new URL(
-  `https://api.giphy.com/v1/gifs/search?q=tgif&api_key=${GIPHY_API_KEY}`
+  `https://api.tenor.com/v1/search?q=tgif&key=${TENOR_API_KEY}`
 );
 
 const getRandomOffset = () =>
@@ -152,10 +152,10 @@ const handler = async (data, ddb) => {
     if (remainingDays !== 0) {
       await get(getMessageUrl(chatId, getMessage(remainingDays)));
     } else {
-      searchUrl.searchParams.append('offset', getRandomOffset());
-      const result = await get(searchUrl);
-      const sticker = result.data.length
-        ? sample(result.data).images.downsized_medium.url
+      searchUrl.searchParams.append('pos', getRandomOffset());
+      const { results } = await get(searchUrl);
+      const sticker = results.length
+        ? sample(results).media[0].tinygif.url
         : FALLBACK_GIF;
       await get(getStickerUrl(chatId, sticker));
     }

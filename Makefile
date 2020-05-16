@@ -28,7 +28,7 @@ deploy: .venv/bin/aws .venv/bin/sam package
 deploy: guard-AWS_ACCESS_KEY_ID
 deploy: guard-AWS_SECRET_ACCESS_KEY
 deploy: guard-TELEGRAM_BOT_TOKEN
-deploy: guard-GIPHY_API_KEY
+deploy: guard-TENOR_API_KEY
 deploy: guard-EMAIL
 deploy: guard-HOSTED_ZONE_ID
 deploy: guard-CERTIFICATE_ARN
@@ -42,7 +42,7 @@ deploy:
 		--capabilities CAPABILITY_IAM \
 		--parameter-overrides \
 			TelegramBotToken=$(TELEGRAM_BOT_TOKEN) \
-			GiphyApiKey=$(GIPHY_API_KEY) \
+			TenorApiKey=$(TENOR_API_KEY) \
 			Zone=$(HOSTED_ZONE_ID) \
 			CertificateArn=$(CERTIFICATE_ARN) \
 			DomainName=$(DOMAIN_NAME) \
