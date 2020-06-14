@@ -1,7 +1,6 @@
 {
-  "extends": [
-    "config:base"
-  ],
+  "extends": ["config:base"],
+  "baseBranches": ["KillYourMaster"],
   "packageRules": [
     {
       "depTypeList": ["devDependencies"],
