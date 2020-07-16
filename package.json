@@ -19,7 +19,7 @@
   "homepage": "https://github.com/herschel666/tgif#readme",
   "devDependencies": {
     "ava": "3.10.1",
-    "aws-sdk": "2.714.0",
+    "aws-sdk": "2.714.2",
     "babel-eslint": "10.1.0",
     "eslint": "7.4.0",
     "eslint-config-prettier": "6.11.0",
