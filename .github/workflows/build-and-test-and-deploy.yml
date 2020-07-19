@@ -34,12 +34,12 @@ jobs:
           npm test
 
       - name: Use Python 3
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/KillYourMaster'
         uses: actions/setup-python@v1
         with:
           python-version: '3.x'
           architecture: 'x64'
 
       - name: Deploy the application
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/KillYourMaster'
         run: make upload
