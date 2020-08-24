@@ -4,11 +4,7 @@ const title = 'Settings';
 
 const getBodyContent = (erroneous) => {
   const errorMessage = erroneous
-    ? html`
-        <p class="mt-2 text-sm text-red-700">
-          Please select a timezone.
-        </p>
-      `
+    ? html` <p class="mt-2 text-sm text-red-700">Please select a timezone.</p> `
     : '';
 
   return html`
@@ -20,9 +16,7 @@ const getBodyContent = (erroneous) => {
       </h1>
       <form action="" method="post" class="mb-4">
         <fieldset>
-          <legend class="text-base leading-normal">
-            Edit your settings…
-          </legend>
+          <legend class="text-base leading-normal">Edit your settings…</legend>
           <div class="p-4 my-4 bg-gray-100">
             <label class="block text-base leading-normal" for="timezone">
               Your timezone
