@@ -40,6 +40,7 @@ Resources:
         DomainName: !Ref DomainName
         Route53:
           HostedZoneId: !Ref HostedZoneId
+
   GetIndexFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -51,11 +52,12 @@ Resources:
           STAGE: !Ref StageName
       Events:
         GetIndex:
-          Type: Api
+          Type: HttpApi
           Properties:
-            RestApiId: !Ref TgifApi
             Path: /
-            Method: get
+            Method: GET
+            ApiId:
+              Ref: HTTP
 
   GetSettingsFunction:
     Type: AWS::Serverless::Function
@@ -70,11 +72,12 @@ Resources:
           GIT_SHA: !Ref GitSha
       Events:
         GetSettings:
-          Type: Api
+          Type: HttpApi
           Properties:
-            RestApiId: !Ref TgifApi
             Path: /user/{userId}/settings/{sessionId}
-            Method: get
+            Method: GET
+            ApiId:
+              Ref: HTTP
       Policies:
         - DynamoDBReadPolicy:
             TableName: !Ref TgifDDB
@@ -92,11 +95,12 @@ Resources:
           GIT_SHA: !Ref GitSha
       Events:
         PostSettings:
-          Type: Api
+          Type: HttpApi
           Properties:
-            RestApiId: !Ref TgifApi
             Path: /user/{userId}/settings/{sessionId}
-            Method: post
+            Method: POST
+            ApiId:
+              Ref: HTTP
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref TgifDDB
@@ -118,20 +122,15 @@ Resources:
           AWS_NODEJS_CONNECTION_REUSE_ENABLE: 1
       Events:
         Tgif:
-          Type: Api
+          Type: HttpApi
           Properties:
-            RestApiId: !Ref TgifApi
             Path: /tgif
-            Method: post
+            Method: POST
+            ApiId:
+              Ref: HTTP
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref TgifDDB
-
-  TgifApi:
-    Type: AWS::Serverless::Api
-    Properties:
-      StageName: !Ref StageName
-      EndpointConfiguration: EDGE
 
   TgifDDB:
     Type: AWS::DynamoDB::Table
