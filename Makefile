@@ -43,7 +43,7 @@ deploy:
 		--parameter-overrides \
 			TelegramBotToken=$(TELEGRAM_BOT_TOKEN) \
 			TenorApiKey=$(TENOR_API_KEY) \
-			Zone=$(HOSTED_ZONE_ID) \
+			HostedZoneId=$(HOSTED_ZONE_ID) \
 			CertificateArn=$(CERTIFICATE_ARN) \
 			DomainName=$(DOMAIN_NAME) \
 			StageName=$(STAGE) \

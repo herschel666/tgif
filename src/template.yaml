@@ -11,7 +11,7 @@ Parameters:
     Type: String
   DomainName:
     Type: String
-  Zone:
+  HostedZoneId:
     Type: String
   CertificateArn:
     Type: String
