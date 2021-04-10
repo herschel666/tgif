@@ -18,6 +18,7 @@ env:
   CERTIFICATE_ARN: ${{ secrets.CERTIFICATE_ARN }}
   DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
   EK_USER_ID: ${{ secrets.EK_USER_ID }}
+  GIT_SHA: ${{ github.sha }}
 
 jobs:
   ci-cd:

@@ -5,7 +5,7 @@ AWS_REGION ?= eu-central-1
 BUCKET_NAME = ek-geloets-installationen-ftw
 STACK_NAME = ek-tgif-bot
 STAGE ?= dev
-TRAVIS_COMMIT ?= dev
+GIT_SHA ?= dev
 
 mb: .venv/bin/aws
 	@ aws --region $(AWS_REGION) \
@@ -47,7 +47,7 @@ deploy:
 			CertificateArn=$(CERTIFICATE_ARN) \
 			DomainName=$(DOMAIN_NAME) \
 			StageName=$(STAGE) \
-			GitSha=$(TRAVIS_COMMIT) \
+			GitSha=$(GIT_SHA) \
 			AlarmRecipient=$(EMAIL) \
 			EkUserId=$(EK_USER_ID)
 
