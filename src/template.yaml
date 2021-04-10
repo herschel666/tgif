@@ -31,6 +31,15 @@ Parameters:
     Default: 7
 
 Resources:
+  HTTP:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+    StageName: !Ref StageName
+    Domain:
+      CertificateArn: !Ref CertificateArn
+      DomainName: !Ref DomainName
+      Route53:
+        HostedZoneId: !Ref HostedZoneId
   GetIndexFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -238,42 +247,3 @@ Resources:
       Threshold: 1
       AlarmActions:
         - !Ref ErrorTopic
-
-  CustomDomainName:
-    Type: AWS::ApiGateway::DomainName
-    Properties:
-      DomainName: !Ref DomainName
-      CertificateArn: !Ref CertificateArn
-      EndpointConfiguration:
-        Types:
-          - EDGE
-
-  DomainRecordSet:
-    Type: AWS::Route53::RecordSet
-    Properties:
-      Name: !Ref DomainName
-      HostedZoneId: !Ref Zone
-      Type: A
-      AliasTarget:
-        DNSName: !GetAtt CustomDomainName.DistributionDomainName
-        # Standard Zone ID for Cloudfront distribution
-        HostedZoneId: Z2FDTNDATAQYW2
-
-  BasePathMapping:
-    Type: AWS::ApiGateway::BasePathMapping
-    Properties:
-      BasePath: (none)
-      DomainName: !Ref DomainName
-      RestApiId: !Ref TgifApi
-      Stage: !Ref StageName
-
-Outputs:
-  TgifApi:
-    Description: 'API Gateway endpoint URL for Prod stage for Tgif function'
-    Value: !Sub 'https://${TgifApi}.execute-api.${AWS::Region}.amazonaws.com/${StageName}/tgif/'
-  TgifFunction:
-    Description: 'Tgif Lambda Function ARN'
-    Value: !GetAtt TgifFunction.Arn
-  TgifFunctionIamRole:
-    Description: 'Implicit IAM Role created for Tgif function'
-    Value: !GetAtt TgifFunctionRole.Arn
