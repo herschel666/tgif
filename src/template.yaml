@@ -34,12 +34,12 @@ Resources:
   HTTP:
     Type: AWS::Serverless::HttpApi
     Properties:
-    StageName: !Ref StageName
-    Domain:
-      CertificateArn: !Ref CertificateArn
-      DomainName: !Ref DomainName
-      Route53:
-        HostedZoneId: !Ref HostedZoneId
+      StageName: !Ref StageName
+      Domain:
+        CertificateArn: !Ref CertificateArn
+        DomainName: !Ref DomainName
+        Route53:
+          HostedZoneId: !Ref HostedZoneId
   GetIndexFunction:
     Type: AWS::Serverless::Function
     Properties:
