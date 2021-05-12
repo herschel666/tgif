@@ -5,7 +5,13 @@ exports.tgifHandler = async (event) => {
   console.log('Version: %s', process.env.GIT_SHA);
   console.log(event);
   const { message, edited_message } = JSON.parse(event.body);
-  const { text, chat, date, from, message_id: messageId } = {
+  const {
+    text,
+    chat,
+    date,
+    from,
+    message_id: messageId,
+  } = {
     ...message,
     ...edited_message,
   };
