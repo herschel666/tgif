@@ -23,7 +23,7 @@
     "babel-eslint": "10.1.0",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-prettier": "3.4.0",
+    "eslint-plugin-prettier": "3.4.1",
     "lerna": "4.0.0",
     "ninos": "3.0.0",
     "nock": "13.1.2",
