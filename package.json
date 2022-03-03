@@ -23,7 +23,7 @@
     "ava": "4.0.1",
     "aws-sdk": "2.1085.0",
     "eslint": "8.10.0",
-    "eslint-config-prettier": "8.4.0",
+    "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.0.0",
     "lerna": "4.0.0",
     "ninos": "3.0.0",
