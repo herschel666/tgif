@@ -22,7 +22,7 @@
     "@babel/eslint-parser": "7.17.0",
     "ava": "4.2.0",
     "aws-sdk": "2.1120.0",
-    "eslint": "8.13.0",
+    "eslint": "8.14.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.0.0",
     "lerna": "4.0.0",
