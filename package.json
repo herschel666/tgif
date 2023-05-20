@@ -18,8 +18,8 @@
   },
   "homepage": "https://github.com/herschel666/tgif#readme",
   "devDependencies": {
-    "@babel/core": "7.20.12",
-    "@babel/eslint-parser": "7.19.1",
+    "@babel/core": "7.21.8",
+    "@babel/eslint-parser": "7.21.8",
     "ava": "5.2.0",
     "aws-sdk": "2.1379.0",
     "eslint": "8.41.0",
