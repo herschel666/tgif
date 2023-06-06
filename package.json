@@ -21,7 +21,7 @@
     "@babel/core": "7.22.1",
     "@babel/eslint-parser": "7.21.8",
     "ava": "5.3.0",
-    "aws-sdk": "2.1391.0",
+    "aws-sdk": "2.1392.0",
     "eslint": "8.42.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-prettier": "4.2.1",
