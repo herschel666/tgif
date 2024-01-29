@@ -20,7 +20,7 @@
   "devDependencies": {
     "@babel/core": "7.23.9",
     "@babel/eslint-parser": "7.23.9",
-    "ava": "6.1.0",
+    "ava": "6.1.1",
     "aws-sdk": "2.1545.0",
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
