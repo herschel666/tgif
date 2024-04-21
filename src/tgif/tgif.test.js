@@ -78,7 +78,6 @@ test('missing text, e.g. channel name update', async (t) => {
 });
 
 [
-  // @prettier-ignore
   ['saturday', SATURDAY],
   ['sunday', SUNDAY],
 ].forEach(([day, date]) =>
