@@ -1,7 +1,6 @@
 {
   "name": "tgif-root",
   "scripts": {
-    "bootstrap": "lerna bootstrap",
     "lint": "eslint --ignore-path .gitignore src lib",
     "ava": "ava",
     "test": "npm-run-all -p lint ava",
@@ -25,12 +24,12 @@
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-prettier": "4.2.1",
-    "lerna": "6.6.2",
     "ninos": "3.0.0",
     "nock": "13.5.4",
     "npm-run-all2": "6.1.2",
     "prettier": "2.8.8"
   },
+  "workspaces": ["src/*", "lib/*"],
   "ava": {
     "files": [
       "src/*/*.test.js"
