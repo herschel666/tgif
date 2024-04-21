@@ -34,8 +34,7 @@ jobs:
 
       - name: Build & test the application
         run: |
-          npm ci
-          npm run bootstrap
+          npm install
           npm test
 
       - name: Use Python 3
