@@ -74,7 +74,7 @@ const getDaysTillFriday = (timestamp, timezone) => {
     minute: '2-digit',
     second: '2-digit',
   };
-  const formatter = new Intl.DateTimeFormat([], options);
+  const formatter = new Intl.DateTimeFormat('en-US', options);
   const currentDay = new Date(formatter.format(new Date(timestamp))).getDay();
   if (currentDay === SATURDAY) {
     return SATURDAY;
